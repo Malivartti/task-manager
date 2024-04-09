@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>widgets/header/Header.qml</file>
+        <file>pages/account/AccountPage.qml</file>
+        <file>pages/authorization/AuthorizationPage.qml</file>
+        <file>pages/home/HomePage.qml</file>
+        <file>pages/main/MainPage.qml</file>
+        <file>pages/projects/ProjectsPage.qml</file>
+        <file>pages/registration/RegistrationPage.qml</file>
+        <file>main.qml</file>
+    </qresource>
+</RCC>
