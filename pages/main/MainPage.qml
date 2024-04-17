@@ -6,6 +6,8 @@ import "../../widgets/header"
 import "../home"
 import "../projects"
 import "../account"
+import "../project"
+import "../settings"
 
 Page {
     id: page
@@ -22,30 +24,34 @@ Page {
 
     ColumnLayout {
         id: columnLayout
-        anchors {
-            left: parent.left
-            right: parent.right
-        }
-
-        spacing: 10
+        anchors.fill: parent
+        spacing: 0
 
         Header {
             id: header
+            Layout.fillWidth: true
+            Layout.preferredHeight: 50
 
             onToHome: {
-                stackView.replace(homePage)
+                mainStackView.replace(homePage)
             }
             onToProjects: {
-                stackView.replace(projectsPage)
+                mainStackView.replace(projectsPage)
             }
             onToAccount: {
-                stackView.replace(accountPage)
+                mainStackView.replace(accountPage)
+            }
+
+            onToProject: {
+                mainStackView.replace(projectPage)
             }
         }
 
         StackView {
-            id: stackView
+            id: mainStackView
             initialItem: homePage
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
             pushEnter: Transition {}
             pushExit: Transition {}
@@ -54,20 +60,38 @@ Page {
             replaceEnter: Transition {}
             replaceExit: Transition {}
         }
+    }
 
-        HomePage {
-            id: homePage
-            visible: true
+    HomePage {
+        id: homePage
+        visible: true
+    }
+
+    ProjectsPage {
+        id: projectsPage
+        visible: false
+    }
+
+    AccountPage {
+        id: accountPage
+        visible: false
+    }
+
+    ProjectPage {
+        id: projectPage
+        visible: false
+
+        onToSettings: {
+            mainStackView.replace(settingsPage)
         }
+    }
 
-        ProjectsPage {
-            id: projectsPage
-            visible: false
-        }
+    SettingsPage {
+        id: settingsPage
+        visible: false
 
-        AccountPage {
-            id: accountPage
-            visible: false
+        onToProject: {
+            mainStackView.replace(projectPage)
         }
     }
 

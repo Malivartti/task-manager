@@ -5,8 +5,8 @@ import Authorization
 
 Page {
     id: page
-    signal log_in();
-    signal toReg();
+    signal log_in()
+    signal toReg()
 
     AuthorizationControl {
         id: control
@@ -30,18 +30,18 @@ Page {
         id: columnLayout
         Layout.maximumWidth: 300
         anchors.centerIn: parent
-        spacing: 10
+        spacing: 0
 
         Rectangle {
-            height: 30
+            Layout.preferredHeight: 30
             Layout.fillWidth: true
             anchors.bottomMargin: 30
+            color: "white"
 
             Text {
                 anchors.centerIn: parent
                 text: qsTr("Авторизация")
             }
-            color: "white"
         }
 
         Text {
@@ -54,7 +54,8 @@ Page {
             id: email
             Layout.fillWidth: true
             Layout.minimumWidth: 300
-            width: 213
+            Layout.preferredWidth: 213
+            spacing: 0
 
             Label {
                 id: label_email
@@ -84,7 +85,8 @@ Page {
             id: password
             Layout.fillWidth: true
             Layout.minimumWidth: 300
-            width: 100
+            Layout.preferredWidth: 100
+            spacing: 0
 
             Label {
                 id: label_password
@@ -103,7 +105,6 @@ Page {
                         warning_password.text = ""
                     }
                 }
-
             }
 
             Text {
@@ -114,21 +115,21 @@ Page {
         }
 
         Button {
+            Layout.alignment: Qt.AlignHCenter
             text: "Войти"
             onClicked: {
-                // page.log_in();
-                control.log_in();
+                // page.log_in()
+                control.log_in()
             }
-            Layout.alignment: Qt.AlignHCenter
 
         }
 
         Button {
-             text: "Регистрация"
-            onClicked: {
-                page.toReg();
-            }
             Layout.alignment: Qt.AlignHCenter
+            text: "Регистрация"
+            onClicked: {
+                page.toReg()
+            }
         }
 
         Component.onCompleted: {
@@ -136,5 +137,5 @@ Page {
             control.accessIsDenied.connect(onAccessIsDenied)
             control.accessIsDenied.connect(onCheckFields)
         }
-}
+    }
 }

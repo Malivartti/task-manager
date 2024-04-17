@@ -8,9 +8,7 @@ import "pages/main"
 ApplicationWindow {
     id: window
     minimumWidth: 640
-    width: 640
     minimumHeight: 480
-    height: 480
     visible: true
     title: "Task manager"
 

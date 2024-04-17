@@ -6,7 +6,6 @@ SOURCES += \
         pages/registration/registrationpage.cpp \
         pages/main/mainpage.cpp
 
-
 resources.files = main.qml \
                   pages/registration/RegistrationPage.qml \
                   pages/authorization/AuthorizationPage.qml \
@@ -14,7 +13,17 @@ resources.files = main.qml \
                   pages/home/HomePage.qml \
                   pages/projects/ProjectsPage.qml \
                   pages/account/AccountPage.qml \
-                  widgets/header/Header.qml
+                  pages/project/ProjectPage.qml \
+                  pages/backlog/BacklogPage.qml \
+                  pages/board/BoardPage.qml \
+                  pages/tasks/TasksPage.qml \
+                  pages/settings/SettingsPage.qml \
+                  pages/datails/DetailsPage.qml \
+                  pages/access/AccessPage.qml \
+                  pages/taskTypes/TaskTypesPage.qml \
+                  widgets/header/Header.qml \
+                  widgets/projectSidebar/ProjectSidebar.qml \
+                  widgets/settingsSidebar/SettingsSidebar.qml
 resources.prefix = /$${TARGET}
 RESOURCES += resources \
              qml.qrc
@@ -36,5 +45,3 @@ HEADERS += \
     pages/main/mainpage.h
 
 
-DISTFILES += \
-    widgets/Header/Header.qml

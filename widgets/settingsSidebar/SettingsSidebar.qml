@@ -4,45 +4,47 @@ import QtQuick.Layouts
 
 Rectangle {
     id: page
-    signal toHome()
-    signal toProjects()
-    signal toAccount()
     signal toProject()
-    color: "white"
+    signal toDetails()
+    signal toAccess()
+    signal toTaskTypes()
+    color: 'white'
 
-    RowLayout {
+    ColumnLayout {
         anchors.fill: parent
         spacing: 0
 
         Button {
-            text: "Главная"
-            onClicked: {
-                page.toHome()
-            }
-        }
-
-        Button {
-            text: "Проекты"
-            onClicked: {
-                page.toProjects()
-            }
-        }
-
-        Button {
-            text: "Аккаунт"
-            onClicked: {
-                page.toAccount()
-            }
-        }
-
-        Button {
-            text: "Проект"
+            text: "К проекту"
+            Layout.topMargin: 10
             onClicked: {
                 page.toProject()
             }
         }
+
+        Button {
+            text: "Сведения"
+            onClicked: {
+                page.toDetails()
+            }
+        }
+
+        Button {
+            text: "Доступ"
+            onClicked: {
+                page.toAccess()
+            }
+        }
+
+        Button {
+            text: "Типы задач"
+            onClicked: {
+                page.toTaskTypes()
+            }
+        }
+
         Item {
-            Layout.fillWidth: true
+            Layout.fillHeight: true
         }
     }
 }

@@ -5,8 +5,8 @@ import Registration
 
 Page {
     id: page
-    signal sign_in(string id_user);
-    signal toAuth();
+    signal sign_in(string id_user)
+    signal toAuth()
 
     RegistrationControl {
         id: control
@@ -33,10 +33,10 @@ Page {
         id: columnLayout
         Layout.maximumWidth: 300
         anchors.centerIn: parent
-        spacing: 10
+        spacing: 0
 
         Rectangle {
-            height: 30
+            Layout.preferredHeight: 30
             Layout.fillWidth: true
             anchors.bottomMargin: 30
 
@@ -58,6 +58,7 @@ Page {
             Layout.fillWidth: true
             Layout.minimumWidth: 300
             width: 213
+            spacing: 0
 
             Label {
                 id: label_nikname
@@ -87,7 +88,8 @@ Page {
             id: email
             Layout.fillWidth: true
             Layout.minimumWidth: 300
-            width: 213
+            Layout.preferredWidth: 213
+            spacing: 0
 
             Label {
                 id: label_email
@@ -117,7 +119,8 @@ Page {
             id: password
             Layout.fillWidth: true
             Layout.minimumWidth: 300
-            width: 100
+            Layout.preferredWidth: 100
+            spacing: 0
 
             Label {
                 id: label_password
