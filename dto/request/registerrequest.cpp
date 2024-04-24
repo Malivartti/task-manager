@@ -1,0 +1,11 @@
+#include "registerrequest.h"
+
+RegisterRequest::RegisterRequest() {}
+RegisterRequest::RegisterRequest(QString email, QString username, QString password)
+    : email(email), username(username), password(password) {}
+
+void RegisterRequest::fromJson(QJsonDocument& json) {
+    email = json["email"].toString();
+    username = json["username"].toString();
+    password = json["password"].toString();
+}
