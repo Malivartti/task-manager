@@ -12,10 +12,10 @@ protected:
     ProjectRepository();
 public:
     Project getById(unsigned int id);
-    Project getByName(QString& name);
+    Project getByName(const QString& name);
 
-    bool save(Project project) override;
-    bool remove(Project project) override;
+    bool save(const Project& project);
+    bool remove(const Project& project);
 };
 
 #endif // PROJECTREPOSITORY_H

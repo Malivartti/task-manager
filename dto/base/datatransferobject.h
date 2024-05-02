@@ -7,9 +7,10 @@ class DataTransferObject
 {
 public:
     DataTransferObject();
+    DataTransferObject(const QJsonDocument& json);
 
     virtual QJsonDocument toJson();
-    virtual void fromJson(QJsonDocument& json);
+    virtual void fromJson(const QJsonDocument& json);
 
     virtual void pol();
 };

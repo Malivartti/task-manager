@@ -12,11 +12,11 @@ protected:
     UserRepository();
 public:
     User getById(unsigned int id);
-    User getByEmail(QString& email);
-    User getByUsername(QString& username);
+    User getByEmail(const QString& email);
+    User getByUsername(const QString& username);
 
-    bool save(User user) override;
-    bool remove(User user) override;
+    bool save(const User& user);
+    bool remove(const User& user);
 };
 
 #endif // USERREPOSITORY_H

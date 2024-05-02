@@ -2,17 +2,17 @@
 
 ProjectRepository::ProjectRepository() {}
 
-Project ProjectRepository::getById(unsigned int id) {
+Project ProjectRepository::getById(const unsigned int id) {
     qDebug() << "ProjectRepository::getById()";
     return getOne("Project", "projectId", id);
 }
 
-Project ProjectRepository::getByName(QString& name) {
+Project ProjectRepository::getByName(const QString& name) {
     qDebug() << "ProjectRepository::getByName()";
     return getOne("Project", "name", name);
 }
 
-bool ProjectRepository::save(Project project) {
+bool ProjectRepository::save(const Project& project) {
     QSqlQuery query;
     if (project.getId() == 0) {
         query.prepare(QString("INSERT INTO public.\"Project\" (name, description, \"ownerId\", \"createdId\") "
@@ -37,6 +37,6 @@ bool ProjectRepository::save(Project project) {
     }
 }
 
-bool ProjectRepository::remove(Project project) {
+bool ProjectRepository::remove(const Project& project) {
 
 }

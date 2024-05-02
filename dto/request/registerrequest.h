@@ -11,9 +11,10 @@ public:
     QString password;
 
     RegisterRequest();
+    RegisterRequest(const QJsonDocument &json);
     RegisterRequest(QString email, QString username, QString password);
 
-    void fromJson(QJsonDocument& json) override;
+    void fromJson(const QJsonDocument& json) override;
 };
 
 #endif // REGISTERREQUEST_H

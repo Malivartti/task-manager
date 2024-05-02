@@ -10,7 +10,7 @@ class UserProject : public Model
 private:
     unsigned int userId;
     unsigned int projectId;
-    QString role;
+    QString role = "None";
 public:
     UserProject();
     UserProject(QSqlQuery& query);

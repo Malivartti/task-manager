@@ -7,17 +7,17 @@ User UserRepository::getById(unsigned int id) {
     return getOne("User", "userId", id);
 }
 
-User UserRepository::getByEmail(QString& email) {
+User UserRepository::getByEmail(const QString& email) {
     qDebug() << "UserRepository::getByEmail()";
     return getOne("User", "email", email);
 }
 
-User UserRepository::getByUsername(QString& username) {
+User UserRepository::getByUsername(const QString& username) {
     qDebug() << "UserRepository::getByUsername()";
     return getOne("User", "username", username);
 }
 
-bool UserRepository::save(User user) {
+bool UserRepository::save(const User& user) {
     QSqlQuery query;
     if (user.getId() == 0) {
         query.prepare(QString("INSERT INTO public.\"User\" (email, username, password) "
@@ -41,7 +41,7 @@ bool UserRepository::save(User user) {
     }
 }
 
-bool UserRepository::remove(User user) {
+bool UserRepository::remove(const User& user) {
 
 }
 

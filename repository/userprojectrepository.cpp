@@ -12,19 +12,38 @@ QVector<UserProject> UserProjectRepository::getByProjectId(unsigned int id)
     return getMany("UserProject", "projectId", id);
 }
 
-bool UserProjectRepository::save(UserProject userProject)
+UserProject UserProjectRepository::getByUserIdAndProjectId(unsigned int userId, unsigned int projectId)
 {
     QSqlQuery query;
-    //prepareQuery(query, model, field, value);
-    query.prepare(QString("SELECT * FROM public.\"UserProject\" WHERE \"userId\" = :userId AND \"projectId\" = :projectId "));
-    query.bindValue(":userId", userProject.getUserId());
-    query.bindValue(":projectId", userProject.getProjectId());
-    if (!query.exec() || query.lastError().type() != QSqlError::NoError ) {
-        qDebug() << "During executing a query error occured: " << query.lastError().text();
-        return false;
-    }
 
-    if (query.size() == 0) {
+    query.prepare(QString("SELECT * FROM public.\"UserProject\" WHERE \"userId\" = :userId AND \"projectId\" = :projectId "));
+    query.bindValue(":userId", userId);
+    query.bindValue(":projectId", projectId);
+    if (!query.exec() || query.lastError().type() != QSqlError::NoError) {
+        qDebug() << "During executing a query error occured: " << query.lastError().text();
+    }
+    else {
+        while (query.next()) {
+            return UserProject(query);
+        }
+    }
+    return UserProject();
+}
+
+
+bool UserProjectRepository::save(const UserProject& userProject)
+{
+    QSqlQuery query;
+
+    // query.prepare(QString("SELECT * FROM public.\"UserProject\" WHERE \"userId\" = :userId AND \"projectId\" = :projectId "));
+    // query.bindValue(":userId", userProject.getUserId());
+    // query.bindValue(":projectId", userProject.getProjectId());
+    // if (!query.exec() || query.lastError().type() != QSqlError::NoError ) {
+    //     qDebug() << "During executing a query error occured: " << query.lastError().text();
+    //     return false;
+    // }
+
+    if (getByUserIdAndProjectId(userProject.getUserId(), userProject.getProjectId()).getUserId() == 0) {
         query.prepare(QString("INSERT INTO public.\"UserProject\" VALUES (:userId, :projectId, :role)"));
     }
     else {
@@ -42,7 +61,7 @@ bool UserProjectRepository::save(UserProject userProject)
     return true;
 }
 
-bool UserProjectRepository::remove(UserProject userProject)
+bool UserProjectRepository::remove(const UserProject& userProject)
 {
 
 }

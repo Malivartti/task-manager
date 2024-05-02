@@ -54,8 +54,8 @@ protected:
     static inline DBConnection* connection = DBConnection::getInstance();
     friend class Singleton<Repository<T>>;
 public:
-    virtual bool save(T model) { return false; }
-    virtual bool remove(T model) { return false; }
+    // virtual bool save(const T& model) { return false; } // DO NOT TOUCH WHILE IT IS A SINGLETON
+    // virtual bool remove(const T& model) { return false; } // DO NOT TOUCH WHILE IT IS A SINGLETON
 };
 
 #endif // REPOSITORY_H

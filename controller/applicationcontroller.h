@@ -2,18 +2,21 @@
 #define APPLICATIONCONTROLLER_H
 
 #include <QJsonDocument>
+#include <QTcpSocket>
 
-#include "base/component.h"
-#include "service/authservice.h"
+#include "controller/base/controller.h"
+#include "controller/projectcontroller.h"
 
-class ApplicationController : public Component<ApplicationController>
+class ApplicationController : public Controller<ApplicationController>
 {
 protected:
     ApplicationController();
 
+    ProjectController* projectController = ProjectController::getInstance();
+
     friend class Singleton<ApplicationController>;
 public:
-    QJsonDocument mapRequest(quint16 key, QDataStream& in);
+    void mapRequest(qintptr descriptor, QDataStream& in);
 };
 
 #endif // APPLICATIONCONTROLLER_H

@@ -14,9 +14,10 @@ protected:
 public:
     QVector<UserProject> getByUserId(unsigned int id);
     QVector<UserProject> getByProjectId(unsigned int id);
+    UserProject getByUserIdAndProjectId(unsigned int userId, unsigned int projectId);
 
-    bool save(UserProject userProject) override;
-    bool remove(UserProject userProject) override;
+    bool save(const UserProject& userProject);
+    bool remove(const UserProject& userProject);
 };
 
 #endif // USERPROJECTREPOSITORY_H
