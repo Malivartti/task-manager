@@ -3,6 +3,7 @@
 #include "pages/authorization/authorizationpage.h"
 #include "pages/registration/registrationpage.h"
 #include "pages/main/mainpage.h"
+#include "pages/home/homepage.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,8 +13,10 @@ int main(int argc, char *argv[])
     qmlRegisterType<AuthorizationPage>("Authorization", 1, 0, "AuthorizationControl");
     qmlRegisterType<RegistrationPage>("Registration", 1, 0, "RegistrationControl");
     qmlRegisterType<MainPage>("Main", 1, 0, "MainControl");
+    qmlRegisterType<HomePage>("Home", 1, 0, "HomeControl");
 
-    const QUrl url(u"qrc:/main.qml"_qs);
+
+    const QUrl url(u"qrc:/task-manager/main.qml"_qs);
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreated,

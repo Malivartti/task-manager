@@ -27,7 +27,7 @@ ApplicationWindow {
 
     AuthorizationPage {
         id: authPage
-        visible: true
+        visible: false
         onToReg: {
             stackView.replace(regPage)
         }

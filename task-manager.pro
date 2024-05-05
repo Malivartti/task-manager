@@ -1,8 +1,12 @@
 QT += quick
 
 SOURCES += \
+        models/homeRecentProject/homerecentprojectmodel.cpp \
+        models/homeTask/hometaskmodel.cpp \
+        models/owner/ownermodel.cpp \
         main.cpp \
         pages/authorization/authorizationpage.cpp \
+        pages/home/homepage.cpp \
         pages/registration/registrationpage.cpp \
         pages/main/mainpage.cpp
 
@@ -23,10 +27,11 @@ resources.files = main.qml \
                   pages/taskTypes/TaskTypesPage.qml \
                   widgets/header/Header.qml \
                   widgets/projectSidebar/ProjectSidebar.qml \
-                  widgets/settingsSidebar/SettingsSidebar.qml
+                  widgets/settingsSidebar/SettingsSidebar.qml \
+                  widgets/homeRecentProject/HomeRecentProject.qml \
+                  widgets/homeTask/HomeTask.qml
 resources.prefix = /$${TARGET}
-RESOURCES += resources \
-             qml.qrc
+RESOURCES += resources
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -40,8 +45,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    models/homeRecentProject/homerecentprojectmodel.h \
+    models/homeTask/hometaskmodel.h \
+    models/owner/ownermodel.h \
     pages/authorization/authorizationpage.h \
+    pages/home/homepage.h \
     pages/registration/registrationpage.h \
     pages/main/mainpage.h
+
 
 
