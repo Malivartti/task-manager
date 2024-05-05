@@ -2,6 +2,10 @@
 #define MAINPAGE_H
 
 #include <QObject>
+#include <QDebug>
+
+#include "controller.h"
+#include "dto/simplerequest.h"
 
 class MainPage : public QObject
 {
@@ -14,9 +18,11 @@ public:
     QString id_user() const;
     void setId_user(const QString&);
 signals:
-     void id_userChanged(const QString&);
+    void id_userChanged(const QString&);
 private:
     QString m_id_user;
+    static inline Controller* controller = Controller::getInstance();
+    static inline Handler* handler = Handler::getInstance();
 };
 
 #endif // MAINPAGE_H

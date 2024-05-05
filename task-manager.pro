@@ -1,6 +1,11 @@
 QT += quick
 
 SOURCES += \
+        controller.cpp \
+        dto/base/datatransferobject.cpp \
+        dto/loginrequest.cpp \
+        dto/simplerequest.cpp \
+        handler.cpp \
         models/homeRecentProject/homerecentprojectmodel.cpp \
         models/homeTask/hometaskmodel.cpp \
         models/owner/ownermodel.cpp \
@@ -45,6 +50,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    controller.h \
+    dto/base/datatransferobject.h \
+    dto/loginrequest.h \
+    dto/simplerequest.h \
+    handler.h \
     models/homeRecentProject/homerecentprojectmodel.h \
     models/homeTask/hometaskmodel.h \
     models/owner/ownermodel.h \

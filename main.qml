@@ -54,5 +54,6 @@ ApplicationWindow {
 
     Component.onCompleted: {
         regPage.sign_in.connect(mainPage.sign_in)
+        authPage.log_in.connect(mainPage.sign_in)
     }
 }

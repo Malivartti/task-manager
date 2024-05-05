@@ -5,7 +5,7 @@ import Authorization
 
 Page {
     id: page
-    signal log_in()
+    signal log_in(string id_user)
     signal toReg()
 
     AuthorizationControl {
