@@ -5,6 +5,7 @@ SOURCES += \
         dto/base/datatransferobject.cpp \
         dto/loginrequest.cpp \
         dto/simplerequest.cpp \
+        dto/registerrequest.cpp \
         handler.cpp \
         models/homeRecentProject/homerecentprojectmodel.cpp \
         models/homeTask/hometaskmodel.cpp \
@@ -54,6 +55,7 @@ HEADERS += \
     dto/base/datatransferobject.h \
     dto/loginrequest.h \
     dto/simplerequest.h \
+    dto/registerrequest.h \
     handler.h \
     models/homeRecentProject/homerecentprojectmodel.h \
     models/homeTask/hometaskmodel.h \

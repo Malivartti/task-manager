@@ -16,6 +16,7 @@ public:
     void mapRequest(quint16 key, const QJsonDocument& object);
 signals:
     void login(const QJsonDocument& object);
+    void reg(const QJsonDocument& object);
 };
 
 #endif // HANDLER_H

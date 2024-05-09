@@ -3,11 +3,14 @@
 
 #include <QObject>
 
+#include "controller.h"
+#include "dto/registerrequest.h"
+
 class RegistrationPage : public QObject
 {
     Q_OBJECT
 public:
-    RegistrationPage(QObject* parent = nullptr) {}
+    RegistrationPage(QObject* parent = nullptr);
     Q_INVOKABLE void sign_in();
     Q_PROPERTY(QString nikname READ nikname WRITE setNikname NOTIFY niknameChanged);
     Q_PROPERTY(QString email READ email WRITE setEmail NOTIFY emailChanged);
@@ -20,6 +23,9 @@ public:
     QString password() const;
     void setPassword(const QString&);
 
+public slots:
+    void reg(const QJsonDocument& object);
+
 signals:
     void niknameChanged(const QString&);
     void emailChanged(const QString&);
@@ -30,6 +36,8 @@ private:
     QString m_nikname;
     QString m_email;
     QString m_password;
+    static inline Controller* controller = Controller::getInstance();
+    static inline Handler* handler = Handler::getInstance();
 };
 
 #endif // REGISTRATIONPAGE_H

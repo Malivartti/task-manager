@@ -1,11 +1,13 @@
 #include "registrationpage.h"
 
+RegistrationPage::RegistrationPage(QObject *parent)
+{
+    connect(handler, &Handler::reg, this, &RegistrationPage::reg);
+}
+
 void RegistrationPage::sign_in() {
-    if (m_email != "user@mail.com" && m_password != "123") {
-        emit accessIsAllowed("id_user=0");
-    } else {
-        emit accessIsDenied();
-    }
+    qDebug() << m_email << m_nikname << m_password << RegisterRequest(m_email, m_nikname, m_password).toJson();
+    controller->sendToServer(2, RegisterRequest(m_email, m_nikname, m_password).toJson());
 }
 
 QString RegistrationPage::nikname() const {
@@ -35,5 +37,15 @@ void RegistrationPage::setPassword(const QString& text) {
     if (text != m_password) {
         m_password = text;
         emit passwordChanged(text);
+    }
+}
+
+void RegistrationPage::reg(const QJsonDocument &object)
+{
+    if (object["head"]["code"].toInt() == 0) {
+        emit accessIsDenied();
+    }
+    else {
+        emit accessIsAllowed(QString::number(object["body"]["id"].toInt()));
     }
 }

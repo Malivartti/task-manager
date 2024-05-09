@@ -14,7 +14,7 @@ public:
     LoginRequest();
     LoginRequest(QString login, QString password);
 
-    QJsonDocument toJson();
+    QJsonObject toJsonObject() override;
 };
 
 

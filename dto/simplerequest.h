@@ -13,7 +13,7 @@ public:
     SimpleRequest();
     SimpleRequest(unsigned int id);
 
-    QJsonDocument toJson();
+    QJsonObject toJsonObject() override;
 };
 
 #endif // SIMPLEREQUEST_H
