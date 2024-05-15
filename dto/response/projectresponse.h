@@ -3,7 +3,7 @@
 
 #include <QString>
 
-#include "dto/base/datatransferobject.h"
+#include "../base/datatransferobject.h"
 #include "userresponse.h"
 
 class ProjectResponse : public DataTransferObject

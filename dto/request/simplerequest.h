@@ -1,7 +1,7 @@
 #ifndef SIMPLEREQUEST_H
 #define SIMPLEREQUEST_H
 
-#include "dto/base/datatransferobject.h"
+#include "../base/datatransferobject.h"
 
 class SimpleRequest : public DataTransferObject
 {

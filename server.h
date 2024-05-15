@@ -10,6 +10,7 @@
 #include "base/baseserver.h"
 #include "base/dbconnection.h"
 #include "controller/frontcontroller.h"
+#include "service/authservice.h"
 
 class Server : public BaseServer
 {

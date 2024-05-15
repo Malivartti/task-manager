@@ -3,7 +3,7 @@
 
 #include <QString>
 
-#include "model/user.h"
+#include "../model/user.h"
 #include "base/repository.h"
 
 class UserRepository : public Repository<User, UserRepository>

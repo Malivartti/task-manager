@@ -3,8 +3,8 @@
 
 #include <QSqlQuery>
 
-#include "base/component.h"
-#include "base/dbconnection.h"
+#include "../../base/component.h"
+#include "../../base/dbconnection.h"
 
 enum class RequestType { Insert, Update, Delete, InsUpd };
 enum class ReturnType { Default, Returning };

@@ -1,8 +1,8 @@
 #ifndef PROJECTCONTROLLER_H
 #define PROJECTCONTROLLER_H
 
-#include "controller/base/controller.h"
-#include "service/projectservice.h"
+#include "base/controller.h"
+#include "../service/projectservice.h"
 
 class ProjectController : public Controller<ProjectController>
 {

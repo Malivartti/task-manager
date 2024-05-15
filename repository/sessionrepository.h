@@ -3,7 +3,7 @@
 
 #include <QString>
 
-#include "model/session.h"
+#include "../model/session.h"
 #include "base/repository.h"
 
 class SessionRepository : public Repository<Session, SessionRepository>

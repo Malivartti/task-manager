@@ -3,7 +3,7 @@
 
 #include <QString>
 
-#include "model/project.h"
+#include "../model/project.h"
 #include "base/repository.h"
 
 class ProjectRepository : public Repository<Project, ProjectRepository>

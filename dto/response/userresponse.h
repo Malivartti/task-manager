@@ -3,7 +3,7 @@
 
 #include <QJsonObject>
 
-#include "dto/base/datatransferobject.h"
+#include "../base/datatransferobject.h"
 
 class UserResponse : public DataTransferObject
 {

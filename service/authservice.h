@@ -6,13 +6,13 @@
 #include <QDateTime>
 
 #include "base/service.h"
-#include "repository/userrepository.h"
-#include "repository/sessionrepository.h"
-#include "dto/base/response.h"
-#include "dto/request/simplerequest.h"
-#include "dto/request/loginrequest.h"
-#include "dto/request/registerrequest.h"
-#include "dto/response/userresponse.h"
+#include "../repository/userrepository.h"
+#include "../repository/sessionrepository.h"
+#include "../dto/base/response.h"
+#include "../dto/request/simplerequest.h"
+#include "../dto/request/loginrequest.h"
+#include "../dto/request/registerrequest.h"
+#include "../dto/response/userresponse.h"
 
 class AuthService : public Service<AuthService>
 {

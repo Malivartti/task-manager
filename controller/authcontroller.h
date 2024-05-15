@@ -1,8 +1,8 @@
 #ifndef AUTHCONTROLLER_H
 #define AUTHCONTROLLER_H
 
-#include "controller/base/controller.h"
-#include "service/authservice.h"
+#include "base/controller.h"
+#include "../service/authservice.h"
 
 class AuthController : public Controller<AuthController>
 {

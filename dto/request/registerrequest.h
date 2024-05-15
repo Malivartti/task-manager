@@ -1,7 +1,7 @@
 #ifndef REGISTERREQUEST_H
 #define REGISTERREQUEST_H
 
-#include "dto/base/datatransferobject.h"
+#include "../base/datatransferobject.h"
 
 class RegisterRequest : public DataTransferObject
 {

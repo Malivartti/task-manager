@@ -1,7 +1,7 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include "base/component.h"
+#include "../../base/component.h"
 
 enum class KEY {LOGIN = 1, REG, JOIN_PROJECT = 101, LEAVE_PROJECT};
 

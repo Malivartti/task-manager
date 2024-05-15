@@ -4,11 +4,11 @@
 #include <QJsonDocument>
 #include <QTcpSocket>
 
-#include "base/baseserver.h"
-#include "controller/base/controller.h"
-#include "controller/projectcontroller.h"
-#include "controller/authcontroller.h"
-#include "service/authservice.h"
+#include "../base/baseserver.h"
+#include "base/controller.h"
+#include "projectcontroller.h"
+#include "authcontroller.h"
+#include "../service/authservice.h"
 
 /*
  * KEYS:

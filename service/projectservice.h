@@ -6,17 +6,17 @@
 #include <QString>
 
 #include "base/service.h"
-#include "repository/userrepository.h"
-#include "repository/projectrepository.h"
-#include "repository/userprojectrepository.h"
-#include "repository/sessionrepository.h"
-#include "dto/base/response.h"
-#include "dto/request/simplerequest.h"
-#include "dto/request/participationrequest.h"
-#include "dto/request/projectrequest.h"
-#include "dto/request/projectpostrequest.h"
-#include "dto/request/projectupdaterequest.h"
-#include "dto/response/projectresponse.h"
+#include "../repository/userrepository.h"
+#include "../repository/projectrepository.h"
+#include "../repository/userprojectrepository.h"
+#include "../repository/sessionrepository.h"
+#include "../dto/base/response.h"
+#include "../dto/request/simplerequest.h"
+#include "../dto/request/participationrequest.h"
+#include "../dto/request/projectrequest.h"
+#include "../dto/request/projectpostrequest.h"
+#include "../dto/request/projectupdaterequest.h"
+#include "../dto/response/projectresponse.h"
 
 class ProjectService : public Service<ProjectService>
 {

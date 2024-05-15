@@ -4,7 +4,7 @@
 #include <QString>
 #include <QVector>
 
-#include "model/userproject.h"
+#include "../model/userproject.h"
 #include "base/repository.h"
 
 class UserProjectRepository : public Repository<UserProject, UserProjectRepository>

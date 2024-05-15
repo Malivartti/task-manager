@@ -1,7 +1,7 @@
 #ifndef PROJECTREQUEST_H
 #define PROJECTREQUEST_H
 
-#include "dto/base/datatransferobject.h"
+#include "../base/datatransferobject.h"
 
 class ProjectRequest : public DataTransferObject
 {

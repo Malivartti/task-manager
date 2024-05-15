@@ -1,7 +1,7 @@
 #ifndef PARTICIPATIONREQUEST_H
 #define PARTICIPATIONREQUEST_H
 
-#include "dto/base/datatransferobject.h"
+#include "../base/datatransferobject.h"
 
 class ParticipationRequest : public DataTransferObject
 {

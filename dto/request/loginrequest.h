@@ -1,7 +1,7 @@
 #ifndef LOGINREQUEST_H
 #define LOGINREQUEST_H
 
-#include "dto/base/datatransferobject.h"
+#include "../base/datatransferobject.h"
 
 class LoginRequest : public DataTransferObject
 {

@@ -8,7 +8,7 @@ Server::Server() {
         qDebug() << "Server successfully started";
         DBConnection* connection = DBConnection::getInstance();
         connection->setDriver("QPSQL");
-        connection->connect("localhost", "postgres", "postgres", "246224682");
+        connection->connect("db", "postgres", "postgres", "246224682");
 
         controller = FrontController::getInstance();
         controller->setServer(this);
@@ -31,7 +31,7 @@ void Server::incomingConnection(qintptr socketDescriptor) {
     connect(socket, &QTcpSocket::readyRead, this, [controller = this->controller, socket = this->socket, socketDescriptor]() {
         qDebug() << "Client sent data using descriptor" << socketDescriptor;
         QDataStream in(socket);
-        in.setVersion(QDataStream::Qt_6_7);
+        in.setVersion(QDataStream::Qt_DefaultCompiledVersion);
         if (in.status() != QDataStream::Ok) {
             qDebug() << "QDataStream Error Occured while Reading";
         }
@@ -74,7 +74,7 @@ void Server::sendToClient(qintptr descriptor, quint16 key, const QJsonDocument &
 {
     data.clear();
     QDataStream out(&data, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_6_7);
+    out.setVersion(QDataStream::Qt_DefaultCompiledVersion);
 
     out << quint16(0) << key << json;
     out.device()->seek(0);
@@ -91,7 +91,7 @@ void Server::sendToClient(const QVector<qintptr>& descriptors, quint16 key, cons
 {
     data.clear();
     QDataStream out(&data, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_6_7);
+    out.setVersion(QDataStream::Qt_DefaultCompiledVersion);
 
     out << quint16(0) << key << json;
     out.device()->seek(0);
