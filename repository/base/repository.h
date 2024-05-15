@@ -6,22 +6,27 @@
 #include "base/component.h"
 #include "base/dbconnection.h"
 
-template <class T>
-class Repository : public Component<Repository<T>>
+enum class RequestType { Insert, Update, Delete, InsUpd };
+enum class ReturnType { Default, Returning };
+
+template <class T, class C>
+class Repository : public Component<C>
 {
 protected:
     Repository() {};
 
-    // void prepareQuery(QSqlQuery& query, const QString& model, const QString& field, const QVariant& value) {
-    //     query.prepare(QString("SELECT * FROM public.\"" + model + "\" WHERE \"" + field + "\" = ? "));
-    //     query.addBindValue(value);
-    // }
+    virtual void prepareQuery(QSqlQuery& query, const T& model, RequestType request, ReturnType mode = ReturnType::Default) = 0;
 
-    T getOne(const QString& model, const QString& field, const QVariant& value) {
-        QSqlQuery query;
-        //prepareQuery(query, model, field, value);
-        query.prepare(QString("SELECT * FROM public.\"" + model + "\" WHERE \"" + field + "\" = ? "));
-        query.addBindValue(value);
+    bool executeQueryBool(QSqlQuery& query) {
+        if (!query.exec() || query.lastError().type() != QSqlError::NoError) {
+            qDebug() << "During executing a query error occured: " << query.lastError().text();
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    T executeQueryOne(QSqlQuery& query) {
         if (!query.exec() || query.lastError().type() != QSqlError::NoError) {
             qDebug() << "During executing a query error occured: " << query.lastError().text();
         }
@@ -32,14 +37,8 @@ protected:
         }
         return T();
     }
-
-    QVector<T> getMany(const QString& model, const QString& field, const QVariant& value) {
+    QVector<T> executeQueryMany(QSqlQuery& query) {
         QVector<T> vec;
-
-        QSqlQuery query;
-        //prepareQuery(query, model, field, value);
-        query.prepare(QString("SELECT * FROM public.\"" + model + "\" WHERE \"" + field + "\" = ? "));
-        query.addBindValue(value);
         if (!query.exec() || query.lastError().type() != QSqlError::NoError) {
             qDebug() << "During executing a query error occured: " << query.lastError().text();
         }
@@ -51,11 +50,42 @@ protected:
         return vec;
     }
 
+    T getOne(const QString& model, const QString& field, const QVariant& value) {
+        QSqlQuery query;
+        query.prepare(QString("SELECT * FROM public.\"" + model + "\" WHERE \"" + field + "\" = ? "));
+        query.addBindValue(value);
+        return executeQueryOne(query);
+    }
+
+    QVector<T> getMany(const QString& model, const QString& field, const QVariant& value) {
+        QSqlQuery query;
+        query.prepare(QString("SELECT * FROM public.\"" + model + "\" WHERE \"" + field + "\" = ? "));
+        query.addBindValue(value);
+        return executeQueryMany(query);
+    }
+
     static inline DBConnection* connection = DBConnection::getInstance();
-    friend class Singleton<Repository<T>>;
 public:
-    // virtual bool save(const T& model) { return false; } // DO NOT TOUCH WHILE IT IS A SINGLETON
-    // virtual bool remove(const T& model) { return false; } // DO NOT TOUCH WHILE IT IS A SINGLETON
+    virtual T save(const T& model) {
+        QSqlQuery query;
+        prepareQuery(query, model, RequestType::InsUpd, ReturnType::Returning);
+        return executeQueryOne(query);
+    }
+    virtual bool insert(const T& model) {
+        QSqlQuery query;
+        prepareQuery(query, model, RequestType::InsUpd, ReturnType::Returning);
+        return executeQueryBool(query);
+    }
+    virtual bool update(const T& model) {
+        QSqlQuery query;
+        prepareQuery(query, model, RequestType::InsUpd, ReturnType::Returning);
+        return executeQueryBool(query);
+    }
+    virtual bool remove(const T& model) {
+        QSqlQuery query;
+        prepareQuery(query, model, RequestType::InsUpd, ReturnType::Returning);
+        return executeQueryBool(query);
+    };
 };
 
 #endif // REPOSITORY_H

@@ -2,6 +2,38 @@
 
 SessionRepository::SessionRepository() {}
 
+void SessionRepository::prepareQuery(QSqlQuery &query, const Session &session, RequestType request, ReturnType mode)
+{
+    QString string;
+    if (request == RequestType::Insert || (request == RequestType::InsUpd && session.getId() == 0)) {
+        string = "INSERT INTO public.\"Session\" (descriptor, \"userId\", \"startAt\", \"endAt\", \"projectId\") "
+                 "VALUES (:descriptor, :userId, :startAt, :endAt, :projectId)";
+    }
+    else if (request == RequestType::Update || request == RequestType::InsUpd) {
+        string = "UPDATE public.\"Session\" "
+                 "SET descriptor = :descriptor, \"userId\" = :userId, \"startAt\" = :startAt, \"endAt\" = :endAt, \"projectId\" = :projectId "
+                 "WHERE \"sessionId\" = :id";
+    }
+    else if (request == RequestType::Delete) {
+        string = "DELETE FROM public.\"Session\" WHERE \"sessionId\" = :id";
+    }
+    if (string.size()!= 0 && mode == ReturnType::Returning) {
+        string += " RETURNING *";
+    }
+    query.prepare(string);
+    query.bindValue(":id", session.getId());
+    query.bindValue(":descriptor", session.getDescriptor());
+    query.bindValue(":userId", session.getUserId());
+    query.bindValue(":startAt", session.getStartAt());
+    query.bindValue(":endAt", session.getEndAt());
+    if (session.getProjectId() == 0) {
+        query.bindValue(":projectId", QVariant(QMetaType::fromType<int>()));
+    }
+    else {
+        query.bindValue(":projectId", session.getProjectId());
+    }
+}
+
 Session SessionRepository::getById(unsigned int id)
 {
     return getOne("Session", "sessionId", id);
@@ -42,40 +74,11 @@ QVector<qintptr> SessionRepository::getListeningDescriptors(qintptr descriptor)
     return vec;
 }
 
-bool SessionRepository::save(const Session& session)
+bool SessionRepository::removeByDescriptor(qintptr descriptor)
 {
-    qDebug() << "Inside SessionRepository::save()";
+    qDebug() << "SessionRepository::removeByDescriptor()";
     QSqlQuery query;
-    qDebug() << "Created query";
-    if (session.getId() == 0) {
-        qDebug() << "INSERT";
-        query.prepare(QString("INSERT INTO public.\"Session\" (descriptor, \"userId\", \"startAt\", \"endAt\") "
-                              "VALUES (:descriptor, :userId, :startAt, :endAt) "));
-    }
-    else {
-        qDebug() << "UPDATE";
-        query.prepare(QString("UPDATE public.\"Session\" "
-                              "SET descriptor = :descriptor, \"userId\" = :userId, \"startAt\" = :startAt, \"endAt\" = :endAt, \"projectId\" = :projectId"
-                              "WHERE \"sessionId\" = :id "));
-        query.bindValue(":id", session.getId());
-        query.bindValue(":projectId", session.getProjectId());
-    }
-    qDebug() << "CREATED";
-    query.bindValue(":descriptor", session.getDescriptor());
-    query.bindValue(":userId", session.getUserId());
-    query.bindValue(":startAt", session.getStartAt());
-    query.bindValue(":endAt", session.getEndAt());
-    //query.bindValue(":projectId", session.getProjectId());
-    if (!query.exec() || query.lastError().type() != QSqlError::NoError ) {
-        qDebug() << "During executing a query error occured: " << query.lastError().text();
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-
-bool SessionRepository::remove(const Session& session)
-{
-
+    query.prepare(QString("DELETE FROM public.\"Session\" WHERE descriptor = :descriptor"));
+    query.bindValue(":descriptor", descriptor);
+    return executeQueryBool(query);
 }

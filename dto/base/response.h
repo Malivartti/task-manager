@@ -15,7 +15,7 @@ public:
     Header();
     Header(int code, QString description);
 
-    QJsonDocument toJson() override;
+    QJsonObject toJsonObject() override;
 };
 
 class Response : public DataTransferObject
@@ -29,7 +29,7 @@ public:
     Response(QJsonObject head, QJsonObject body);
     Response(QJsonObject head, QJsonArray array);
 
-    QJsonDocument toJson() override;
+    QJsonObject toJsonObject() override;
 };
 
 #endif // RESPONSE_H

@@ -10,14 +10,14 @@ public:
     QString name;
     QString description;
     int ownerId;
-    int createdAt;
+    int createdAt; // Поле, которое устанавливается на сервере
 
     ProjectRequest();
     ProjectRequest(const QJsonDocument &json);
     ProjectRequest(QString name, QString description, unsigned int ownerId, unsigned int createdAt);
     ProjectRequest(unsigned int id, QString name, QString description, unsigned int ownerId, unsigned int createdAt);
 
-    void fromJson(const QJsonDocument& json);
+    void fromJson(const QJsonDocument& json) override;
 };
 
 #endif // PROJECTREQUEST_H

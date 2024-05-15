@@ -1,73 +1,51 @@
 #include "projectcontroller.h"
 
-QVector<QString> userIdAlliases = {"id", "userId", "ownerId", "creatorId"};
-
-static unsigned int getId(const QJsonDocument& object) {
-    unsigned int id = 0;
-    for (QString x : userIdAlliases) {
-        if (id == 0) id = object[x].toInt();
-        else return id;
-    }
-
-    return id;
-}
-
 ProjectController::ProjectController() {}
 
-void ProjectController::mapRequest(qintptr descriptor, quint16 key, const QJsonDocument& object)
+// KEY: 101
+Response ProjectController::joinProject(qintptr descriptor, const ParticipationRequest &request)
 {
-    //if (key) server->sendToClient(descriptor, key, method[key](object).toJson());
-    //else server->sendToClient(authService->getListeningDescriptors(descriptor), key, method[key](object).toJson());
+    if (request.projectId <= 0) {}
+    return projectService->joinProject(descriptor, request);
+}
 
-    switch(key) {
-    case 101: { // join project
-        JoinRequest request;
-        request.fromJson(object);
+// KEY: 102
+Response ProjectController::leaveProject(qintptr descriptor, const ParticipationRequest &request)
+{
+    if (request.projectId <= 0) {}
+    return projectService->leaveProject(descriptor, request);
+}
 
-        server->sendToClient(authService->getListeningDescriptors(descriptor), key, projectService->joinProject(request).toJson()); // Все участники проекта получают это
-        return;
-    }
-    case 102: { // leave project
-        JoinRequest request;
-        request.fromJson(object);
+// KEY: 103
+Response ProjectController::getProject(qintptr descriptor, const SimpleRequest &request)
+{
+    if (request.id <= 0) {}
+    return projectService->getProject(descriptor, request);
+}
 
-        server->sendToClient(authService->getListeningDescriptors(descriptor), key, projectService->leaveProject(request).toJson()); // Все участники проекта получают это
-        return;
-    }
-    case 103: { // get project
-        GetRequest request;
-        request.fromJson(object);
+// KEY: 104
+Response ProjectController::getProjectsByUserId(qintptr descriptor, const SimpleRequest &request)
+{
+    if (request.id <= 0) {}
+    return projectService->getProjectsByUserId(descriptor, request);
+}
 
-        server->sendToClient(descriptor, key, projectService->getProject(request).toJson());
-        return;
-    }
-    case 104: { // get projects
-        GetRequest request;
-        request.fromJson(object);
+// KEY: 105
+Response ProjectController::postProject(qintptr descriptor, const ProjectPostRequest &request)
+{
+    return projectService->postProject(descriptor, request);
+}
 
-        server->sendToClient(descriptor, key, projectService->getProjectsByUserId(request).toJson());
-        return;
-    }
-    case 105: { // post project
-        ProjectRequest request;
-        request.fromJson(object);
+// KEY: 106
+Response ProjectController::updateProject(qintptr descriptor, const ProjectUpdateRequest &request)
+{
+    if (request.projectId <= 0 || request.ownerId <= 0) {}
+    return projectService->updateProject(descriptor, request);
+}
 
-        server->sendToClient(descriptor, key, projectService->postProject(descriptor, request).toJson());
-        return;
-    }
-    case 106: { // update project
-        ProjectRequest request;
-        request.fromJson(object);
-
-        server->sendToClient(authService->getListeningDescriptors(descriptor), key, projectService->updateProject(descriptor, request).toJson()); // Все участники проекта получают это
-        return;
-    }
-    case 199: { // redirect from project
-
-    }
-    case 200: { // redirect to project
-
-    }
-    default: return; // TODO
-    }
+// KEY: 199
+Response ProjectController::redirectToProject(qintptr descriptor, const SimpleRequest &request)
+{
+    if (request.id < 0) {}
+    return projectService->redirectToProject(descriptor, request);
 }

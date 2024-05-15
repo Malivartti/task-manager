@@ -15,7 +15,7 @@ public:
     UserResponse();
     UserResponse(unsigned int userId, QString email, QString username);
 
-    QJsonDocument toJson() override;
+    QJsonObject toJsonObject() override;
 };
 
 #endif // USERRESPONSE_H

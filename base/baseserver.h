@@ -10,8 +10,6 @@ protected:
     QMap<qintptr, QTcpSocket*> sockets;
 
 public:
-    virtual void sendToClient(const quint16 key, const QJsonDocument& json) = 0;
-    virtual void sendToClient(QTcpSocket* socket, QByteArray& data) = 0;
     virtual void sendToClient(qintptr descriptor, quint16 key, const QJsonDocument& json) = 0;
     virtual void sendToClient(const QVector<qintptr>& descriptors, quint16 key, const QJsonDocument& json) = 0;
     BaseServer();

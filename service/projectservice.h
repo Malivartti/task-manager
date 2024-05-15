@@ -11,35 +11,36 @@
 #include "repository/userprojectrepository.h"
 #include "repository/sessionrepository.h"
 #include "dto/base/response.h"
-#include "dto/request/getrequest.h"
-#include "dto/request/joinrequest.h"
+#include "dto/request/simplerequest.h"
+#include "dto/request/participationrequest.h"
 #include "dto/request/projectrequest.h"
+#include "dto/request/projectpostrequest.h"
+#include "dto/request/projectupdaterequest.h"
 #include "dto/response/projectresponse.h"
 
 class ProjectService : public Service<ProjectService>
 {
 protected:
-    UserRepository* userRepository = (UserRepository*)UserRepository::getInstance();
-    ProjectRepository* projectRepository = (ProjectRepository*)ProjectRepository::getInstance();
-    UserProjectRepository* userProjectRepository = (UserProjectRepository*)UserProjectRepository::getInstance();
-    SessionRepository* sessionRepository = (SessionRepository*)SessionRepository::getInstance();
+    UserRepository* userRepository = UserRepository::getInstance();
+    ProjectRepository* projectRepository = ProjectRepository::getInstance();
+    UserProjectRepository* userProjectRepository = UserProjectRepository::getInstance();
+    SessionRepository* sessionRepository = SessionRepository::getInstance();
 
     ProjectService();
 
     friend class Singleton<ProjectService>;
 public:
-    Response joinProject(const JoinRequest& request);
-    Response leaveProject(const JoinRequest& request);
+    Response joinProject(qintptr descriptor, const ParticipationRequest& request);
+    Response leaveProject(qintptr descriptor, const ParticipationRequest& request);
 
-    Response getProjectsByUserId(const GetRequest& request);
-    Response getProject(const GetRequest& request);
+    Response getProjectsByUserId(qintptr descriptor, const SimpleRequest& request);
+    Response getProject(qintptr descriptor, const SimpleRequest& request);
 
-    Response postProject(qintptr descriptor, const ProjectRequest& request);
-    Response removeProject(const GetRequest& request);
-    Response updateProject(qintptr descriptor, const ProjectRequest& request);
+    Response postProject(qintptr descriptor, const ProjectPostRequest& request);
+    Response removeProject(qintptr descriptor, const SimpleRequest& request);
+    Response updateProject(qintptr descriptor, const ProjectUpdateRequest& request);
 
-    Response redirectFromProject(const GetRequest& request);
-    Response redirectToProject(const GetRequest& request);
+    Response redirectToProject(qintptr descriptor, const SimpleRequest& request);
 };
 
 #endif // PROJECTSERVICE_H

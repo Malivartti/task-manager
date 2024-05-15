@@ -4,7 +4,13 @@ DataTransferObject::DataTransferObject() {}
 
 DataTransferObject::DataTransferObject(const QJsonDocument &json) {}
 
-QJsonDocument DataTransferObject::toJson() {}
-void DataTransferObject::fromJson(const QJsonDocument& json) {}
+QJsonDocument DataTransferObject::toJson()
+{
+    return QJsonDocument(
+        toJsonObject()
+        );
+}
 
-void DataTransferObject::pol() {}
+QJsonObject DataTransferObject::toJsonObject() { return {}; }
+
+void DataTransferObject::fromJson(const QJsonDocument& json) {}

@@ -2,6 +2,7 @@
 #define USERPROJECT_H
 
 #include <QString>
+#include <QVariant>
 
 #include "base/model.h"
 
@@ -10,7 +11,7 @@ class UserProject : public Model
 private:
     unsigned int userId;
     unsigned int projectId;
-    QString role = "None";
+    QString role;
 public:
     UserProject();
     UserProject(QSqlQuery& query);

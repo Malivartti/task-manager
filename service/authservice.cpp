@@ -6,9 +6,9 @@ static bool isEmail(const QString& login) {
 
 AuthService::AuthService() {}
 
-Session AuthService::createSession(qintptr descriptor, const User& user)
+bool AuthService::createSession(qintptr descriptor, const User& user)
 {
-    if (!sessionRepository->save(
+    if (!sessionRepository->insert(
             Session(
                 descriptor,
                 user.getId(),
@@ -18,22 +18,16 @@ Session AuthService::createSession(qintptr descriptor, const User& user)
             )
         )
     ) {
-        qDebug() << "Failed";
-        return {};
+        qDebug() << "Failed to create session";
+        return false;
     }
-    return sessionRepository->getByUserId(user.getId()).last();
+    return true;
 }
 
 bool AuthService::isAuthorized(qintptr descriptor)
 {
     Session session = sessionRepository->getByDescriptor(descriptor);
     return (session.getId() != 0 && session.getEndAt() > QDateTime::currentSecsSinceEpoch());
-}
-
-bool AuthService::isAuthenticated(qintptr descriptor, unsigned int userId)
-{
-    Session session = sessionRepository->getByDescriptor(descriptor);
-    return (userId != 0 && session.getId() == userId && session.getEndAt() > QDateTime::currentSecsSinceEpoch());
 }
 
 QVector<qintptr> AuthService::getListeningDescriptors(qintptr descriptor)
@@ -46,9 +40,9 @@ Response AuthService::getUnauthorizedAccess()
     return unauthorizedAccess;
 }
 
-Response AuthService::getUnauthenticatedAccess()
+Response AuthService::getForbiddenAccess()
 {
-    return unauthenticatedAccess;
+    return unauthorizedAccess;
 }
 
 Response AuthService::login(qintptr descriptor, const LoginRequest& request)
@@ -59,74 +53,86 @@ Response AuthService::login(qintptr descriptor, const LoginRequest& request)
         user = userRepository->getByEmail(request.login);
         if (user.getId() == 0) {
             return Response{
-                Header{0, "Incorrect email"}.toJson().object(),
-                UserResponse{}.toJson().object()};
+                Header{0, "Incorrect email"}.toJsonObject(),
+                UserResponse{}.toJsonObject()};
         }
     }
     else { // username
         user = userRepository->getByUsername(request.login);
         if (user.getId() == 0) {
             return Response{
-                Header{0, "Incorrect username"}.toJson().object(),
-                UserResponse{}.toJson().object()};
+                Header{0, "Incorrect username"}.toJsonObject(),
+                UserResponse{}.toJsonObject()};
         }
     }
 
     if (user.getPassword() != request.password) {
         return Response{
-            Header{0, "Incorrect password"}.toJson().object(),
-            UserResponse{}.toJson().object()};
+            Header{0, "Incorrect password"}.toJsonObject(),
+            UserResponse{}.toJsonObject()};
     }
 
     qDebug() << "Logging with Descriptor" << descriptor;
-    if (createSession(descriptor, user).getId() == 0) {
+    if (!createSession(descriptor, user)) {
         return Response{
-            Header{0, "Internal error"}.toJson().object(),
-            UserResponse{}.toJson().object()};
+            Header{0, "Internal error"}.toJsonObject(),
+            UserResponse{}.toJsonObject()};
     }
 
     return Response{
-        Header{1, "OK"}.toJson().object(),
+        Header{1, "OK"}.toJsonObject(),
         UserResponse{
             user.getId(),
             user.getEmail(),
             user.getUsername()
-        }.toJson().object()};
+        }.toJsonObject()};
 }
 
 Response AuthService::reg(qintptr descriptor, const RegisterRequest& request) {
     if (userRepository->getByEmail(request.email).getId() != 0) {
         return Response{
-            Header{0, "User with this email already exists"}.toJson().object(),
-            UserResponse{}.toJson().object()};
+            Header{0, "User with this email already exists"}.toJsonObject(),
+            UserResponse{}.toJsonObject()};
     }
 
     if (userRepository->getByUsername(request.username).getId() != 0) {
         return Response{
-            Header{0, "User with this username already exists"}.toJson().object(),
-            UserResponse{}.toJson().object()};
+            Header{0, "User with this username already exists"}.toJsonObject(),
+            UserResponse{}.toJsonObject()};
     }
 
-    if (!userRepository->save(User(request.email, request.username, request.password))) {
+    User user = userRepository->save(User(request.email, request.username, request.password));
+    if (user.getId() == 0) {
         return Response{
-            Header{0, "Internal error"}.toJson().object(),
-            UserResponse{}.toJson().object()};
+            Header{0, "Internal error"}.toJsonObject(),
+            UserResponse{}.toJsonObject()};
     }
-
-    User user = userRepository->getByEmail(request.email);
 
     qDebug() << "Registrating with Descriptor" << descriptor;
-    if (createSession(descriptor, user).getId() == 0) {
+    if (!createSession(descriptor, user)) {
         return Response{
-            Header{0, "Internal error"}.toJson().object(),
-            UserResponse{}.toJson().object()};
+            Header{0, "Internal error"}.toJsonObject(),
+            UserResponse{}.toJsonObject()};
     }
 
     return Response{
-        Header{1, "OK"}.toJson().object(),
+        Header{1, "OK"}.toJsonObject(),
         UserResponse{
             user.getId(),
             user.getEmail(),
             user.getUsername()
-        }.toJson().object()};
+        }.toJsonObject()};
+}
+
+Response AuthService::logout(qintptr descriptor, const SimpleRequest &request)
+{
+    qDebug() << "AuthService::logout()";
+    if (!sessionRepository->removeByDescriptor(descriptor)) {
+        return Response{
+            Header{0, "Internal error"}.toJsonObject(),
+            UserResponse{}.toJsonObject()};
+    }
+    return Response{
+        Header{1, "OK"}.toJsonObject(),
+        UserResponse{}.toJsonObject()};
 }

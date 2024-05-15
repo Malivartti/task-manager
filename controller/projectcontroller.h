@@ -6,12 +6,6 @@
 
 class ProjectController : public Controller<ProjectController>
 {
-private:
-    // QMap<quint16, std::function<Response(const QJsonDocument&)>> method = {
-    //     { 101, [&service = this->projectService] (const QJsonDocument& object) { return service->joinProject(object); } },
-    //     { 102, [&service = this->projectService] (const QJsonDocument& object) { return service->leaveProject(object); } },
-    //     { 103, [&service = this->projectService] (const QJsonDocument& object) { return service->getProject(object); } }
-    // };
 protected:
     ProjectController();
 
@@ -19,7 +13,13 @@ protected:
 
     friend class Singleton<ProjectController>;
 public:
-    void mapRequest(qintptr descriptor, quint16 key, const QJsonDocument& object);
+    Response joinProject(qintptr descriptor, const ParticipationRequest& request);
+    Response leaveProject(qintptr descriptor, const ParticipationRequest& request);
+    Response getProject(qintptr descriptor, const SimpleRequest& request);
+    Response getProjectsByUserId(qintptr descriptor, const SimpleRequest& request);
+    Response postProject(qintptr descriptor, const ProjectPostRequest& request);
+    Response updateProject(qintptr descriptor, const ProjectUpdateRequest& request);
+    Response redirectToProject(qintptr descriptor, const SimpleRequest& request);
 };
 
 #endif // PROJECTCONTROLLER_H

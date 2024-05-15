@@ -16,10 +16,9 @@ public:
     int createdAt;
 
     ProjectResponse();
-    ProjectResponse(unsigned int projectId, QString name, QString description, UserResponse ownerId, unsigned int createdAt);
-    ProjectResponse(unsigned int projectId, QString name, QString description, UserResponse& ownerId,unsigned int createdAt);
+    ProjectResponse(unsigned int projectId, QString name, QString description, const UserResponse& ownerId, unsigned int createdAt);
 
-    QJsonDocument toJson();
+    QJsonObject toJsonObject() override;
 };
 
 #endif // PROJECTRESPONSE_H

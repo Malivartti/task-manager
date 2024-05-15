@@ -60,7 +60,8 @@ void Session::setProjectId(unsigned int newProjectId)
     projectId = newProjectId;
 }
 
-Session::Session() {}
+Session::Session() : sessionId(0), descriptor(0), userId(0),
+    startAt(0), endAt(0), projectId(0) {}
 
 Session::Session(QSqlQuery& query) : sessionId(query.value(0).toUInt()), descriptor(query.value(1).toLongLong()), userId(query.value(2).toUInt()),
     startAt(query.value(3).toUInt()), endAt(query.value(4).toUInt()), projectId(query.value(5).toUInt()) {}
@@ -68,8 +69,8 @@ Session::Session(QSqlQuery& query) : sessionId(query.value(0).toUInt()), descrip
 
 Session::Session(qintptr descriptor, unsigned int userId, unsigned long long startAt, unsigned long long endAt, unsigned int projectId)
     : sessionId(0), descriptor(descriptor), userId(userId),
-    startAt(startAt), endAt(endAt), projectId(projectId) { qDebug() << "Session cinstructor 1"; }
+    startAt(startAt), endAt(endAt), projectId(projectId) {}
 
 Session::Session(unsigned int sessionId, qintptr descriptor, unsigned int userId, unsigned long long startAt, unsigned long long endAt, unsigned int projectId)
     : sessionId(sessionId), descriptor(descriptor), userId(userId),
-    startAt(startAt), endAt(endAt), projectId(projectId) { qDebug() << "Session cinstructor 2"; }
+    startAt(startAt), endAt(endAt), projectId(projectId) {}

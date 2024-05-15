@@ -6,10 +6,14 @@
 #include "model/session.h"
 #include "base/repository.h"
 
-class SessionRepository : public Repository<Session>
+class SessionRepository : public Repository<Session, SessionRepository>
 {
 protected:
     SessionRepository();
+
+    friend class Singleton<SessionRepository>;
+
+    void prepareQuery(QSqlQuery& query, const Session& session, RequestType request, ReturnType mode = ReturnType::Default) override;
 public:
     Session getById(unsigned int id);
     Session getByDescriptor(qintptr descriptor);
@@ -18,8 +22,9 @@ public:
 
     QVector<qintptr> getListeningDescriptors(qintptr descriptor);
 
-    bool save(const Session& session);
-    bool remove(const Session& session);
+    bool setProjectId(unsigned int sessionId, unsigned int projectId); // Добавить реализацию
+
+    bool removeByDescriptor(qintptr descriptor);
 };
 
 #endif // SESSIONREPOSITORY_H
