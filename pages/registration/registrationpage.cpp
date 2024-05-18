@@ -2,50 +2,52 @@
 
 RegistrationPage::RegistrationPage(QObject *parent)
 {
-    connect(handler, &Handler::reg, this, &RegistrationPage::reg);
+    handler->addPage(this);
 }
 
-void RegistrationPage::sign_in() {
-    qDebug() << m_email << m_nikname << m_password << RegisterRequest(m_email, m_nikname, m_password).toJson();
-    controller->sendToServer(2, RegisterRequest(m_email, m_nikname, m_password).toJson());
+void RegistrationPage::sendSignUpRequest() {
+    controller->sendToServer(2, RegisterRequest(email, username, password).toJson());
 }
 
-QString RegistrationPage::nikname() const {
-    return m_nikname;
+QString RegistrationPage::getUsername() const {
+    return username;
 }
-void RegistrationPage::setNikname(const QString& text) {
-    if (text != m_nikname) {
-        m_nikname = text;
-        emit niknameChanged(text);
+void RegistrationPage::setUsername(const QString& text) {
+    if (text != username) {
+        username = text;
     }
 }
 
-QString RegistrationPage::email() const {
-    return m_email;
+QString RegistrationPage::getEmail() const {
+    return email;
 }
 void RegistrationPage::setEmail(const QString& text) {
-    if (text != m_email) {
-        m_email = text;
-        emit emailChanged(text);
+    if (text != email) {
+        email = text;
     }
 }
 
-QString RegistrationPage::password() const {
-    return m_password;
+QString RegistrationPage::getPassword() const {
+    return password;
 }
 void RegistrationPage::setPassword(const QString& text) {
-    if (text != m_password) {
-        m_password = text;
-        emit passwordChanged(text);
+    if (text != password) {
+        password = text;
     }
 }
 
-void RegistrationPage::reg(const QJsonDocument &object)
+void RegistrationPage::notify(quint16 key, const QJsonDocument &object)
 {
+    if (key == 2) signUp(object);
+}
+
+void RegistrationPage::signUp(const QJsonDocument &object)
+{
+    qDebug() << "RegistrationPage::signUp()";
     if (object["head"]["code"].toInt() == 0) {
         emit accessIsDenied();
     }
     else {
-        emit accessIsAllowed(QString::number(object["body"]["id"].toInt()));
+        emit accessIsAllowed(object["body"]["id"].toInt());
     }
 }

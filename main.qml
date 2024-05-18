@@ -28,10 +28,10 @@ ApplicationWindow {
     AuthorizationPage {
         id: authPage
         visible: false
-        onToReg: {
+        onToRegistrationPage: {
             stackView.replace(regPage)
         }
-        onLog_in: {
+        onToMainPage: {
             stackView.replace(mainPage)
         }
     }
@@ -39,10 +39,10 @@ ApplicationWindow {
     RegistrationPage {
         id: regPage
         visible: false;
-        onToAuth: {
+        onToAuthorizationPage: {
             stackView.replace(authPage)
         }
-        onSign_in: {
+        onToMainPage: {
             stackView.replace(mainPage)
         }
     }
@@ -53,7 +53,7 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        regPage.sign_in.connect(mainPage.sign_in)
-        authPage.log_in.connect(mainPage.sign_in)
+        regPage.toMainPage.connect(mainPage.setUserId)
+        authPage.toMainPage.connect(mainPage.setUserId)
     }
 }

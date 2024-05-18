@@ -1,19 +1,19 @@
 #include "mainpage.h"
 #include <iostream>
 
-QString MainPage::id_user() const {
-    return m_id_user;
+unsigned int MainPage::getUserId() const {
+    return userId;
 }
-void MainPage::setId_user(const QString& text) {
-    qDebug() << "!!!!!!!!!" << m_id_user << text;
-    if (text != m_id_user) {
-        m_id_user = text;
-        qDebug() << "------" << m_id_user;
-        controller->sendToServer(104, SimpleRequest(m_id_user.toUInt()).toJson());
-        emit id_userChanged(text);
+
+void MainPage::setUserId(const unsigned int id) {
+    qDebug() << "User ID:" << userId << id;
+    if (id != userId) {
+        userId = id;
+        // controller->sendToServer(104, SimpleRequest(userId).toJson());
     }
 }
 
-void MainPage::getData() {
-    std::cout << m_id_user.toStdString() << std::endl;
+void MainPage::getUserData()
+{
+    // controller->sendToServer(104, SimpleRequest(userId).toJson());
 }

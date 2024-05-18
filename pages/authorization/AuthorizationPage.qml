@@ -5,8 +5,8 @@ import Authorization
 
 Page {
     id: page
-    signal log_in(string id_user)
-    signal toReg()
+    signal toMainPage(int userId)
+    signal toRegistrationPage()
 
     AuthorizationControl {
         id: control
@@ -14,7 +14,7 @@ Page {
 
     function onCheckFields() {
         if (textField_email.text === "") {
-            warning_email.text = "Введите почту"
+            warning_email.text = "Введите логин"
         }
         if (textField_password.text === "") {
             warning_password.text = "Введите пароль"
@@ -118,8 +118,7 @@ Page {
             Layout.alignment: Qt.AlignHCenter
             text: "Войти"
             onClicked: {
-                // page.log_in()
-                control.log_in()
+                control.sendLoginRequest()
             }
 
         }
@@ -128,12 +127,12 @@ Page {
             Layout.alignment: Qt.AlignHCenter
             text: "Регистрация"
             onClicked: {
-                page.toReg()
+                page.toRegistrationPage()
             }
         }
 
         Component.onCompleted: {
-            control.accessIsAllowed.connect(log_in)
+            control.accessIsAllowed.connect(toMainPage)
             control.accessIsDenied.connect(onAccessIsDenied)
             control.accessIsDenied.connect(onCheckFields)
         }

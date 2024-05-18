@@ -2,37 +2,35 @@
 
 AuthorizationPage::AuthorizationPage(QObject *parent)
 {
-    connect(handler, &Handler::login, this, &AuthorizationPage::login);
+    handler->addPage(this);
 }
 
-void AuthorizationPage::log_in() {
-    // if (m_email == "user@mail.com" && m_password == "123") {
-    //     emit accessIsAllowed("id_user");
-    // } else {
-    //     emit accessIsDenied();
-    // }
-
-    controller->sendToServer(1, LoginRequest(m_email, m_password).toJson());
+void AuthorizationPage::sendLoginRequest() {
+    controller->sendToServer(1, LoginRequest(email, password).toJson());
 }
 
-QString AuthorizationPage::email() const {
-    return m_email;
+QString AuthorizationPage::getEmail() const {
+    return email;
 }
 void AuthorizationPage::setEmail(const QString& text) {
-    if (text != m_email) {
-        m_email = text;
-        emit emailChanged(text);
+    if (text != email) {
+        email = text;
     }
 }
 
-QString AuthorizationPage::password() const {
-    return m_password;
+QString AuthorizationPage::getPassword() const {
+    return password;
 }
+
 void AuthorizationPage::setPassword(const QString& text) {
-    if (text != m_password) {
-        m_password = text;
-        emit passwordChanged(text);
+    if (text != password) {
+        password = text;
     }
+}
+
+void AuthorizationPage::notify(quint16 key, const QJsonDocument &object)
+{
+    if (key == 1) login(object);
 }
 
 void AuthorizationPage::login(const QJsonDocument &object)
@@ -42,7 +40,6 @@ void AuthorizationPage::login(const QJsonDocument &object)
         emit accessIsDenied();
     }
     else {
-        //qDebug() << "id: " << object["body"]["id"].toInt() << object["body"]["id"].toString() << QString::number(object["body"]["id"].toInt());
-        emit accessIsAllowed(QString::number(object["body"]["id"].toInt()));
+        emit accessIsAllowed(object["body"]["id"].toInt());
     }
 }

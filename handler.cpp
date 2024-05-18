@@ -10,12 +10,17 @@ Handler *Handler::getInstance()
     return instance;
 }
 
+void Handler::addPage(BasePage *page)
+{
+    buffer.insert(page);
+}
+
+void Handler::removePage(BasePage *page)
+{
+    buffer.remove(page);
+}
+
 void Handler::mapRequest(quint16 key, const QJsonDocument &object)
 {
-    if (key == 1) {
-        emit login(object);
-    }
-    if (key == 2) {
-        emit reg(object);
-    }
+    for (BasePage* page : buffer) page->notify(key, object);
 }

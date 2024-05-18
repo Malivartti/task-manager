@@ -1,6 +1,7 @@
 QT += quick
 
 SOURCES += \
+        basepage.cpp \
         controller.cpp \
         dto/base/datatransferobject.cpp \
         dto/loginrequest.cpp \
@@ -51,6 +52,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    basepage.h \
     controller.h \
     dto/base/datatransferobject.h \
     dto/loginrequest.h \

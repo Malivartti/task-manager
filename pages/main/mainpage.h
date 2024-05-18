@@ -12,15 +12,14 @@ class MainPage : public QObject
     Q_OBJECT
 public:
     MainPage(QObject* parent = nullptr) {}
-    Q_INVOKABLE void getData();
-    Q_PROPERTY(QString id_user READ id_user WRITE setId_user NOTIFY id_userChanged);
+    Q_INVOKABLE void getUserData();
+    Q_PROPERTY(unsigned int userId READ getUserId WRITE setUserId);
 
-    QString id_user() const;
-    void setId_user(const QString&);
-signals:
-    void id_userChanged(const QString&);
+    unsigned int getUserId() const;
+    void setUserId(const unsigned int);
+
 private:
-    QString m_id_user;
+    unsigned int userId = 0;
     static inline Controller* controller = Controller::getInstance();
     static inline Handler* handler = Handler::getInstance();
 };

@@ -11,15 +11,18 @@ import "../settings"
 
 Page {
     id: page
-    signal sign_in(string id_user)
+    signal setUser(int userId)
 
     MainControl {
         id: control
     }
 
-    function onSign_in(id_user) {
-        control.id_user = id_user
-        control.getData()
+    function setUserId(userId) {
+        control.userId = userId
+    }
+
+    function getUserData(userId) {
+        control.getUserData()
     }
 
     ColumnLayout {
@@ -96,6 +99,7 @@ Page {
     }
 
     Component.onCompleted: {
-        page.sign_in.connect(onSign_in)
+        // page.setUser.connect(setUserId)
+        // page.setUser.connect(getUserData)
     }
 }

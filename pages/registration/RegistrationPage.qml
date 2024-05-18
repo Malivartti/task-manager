@@ -5,8 +5,8 @@ import Registration
 
 Page {
     id: page
-    signal sign_in(string id_user)
-    signal toAuth()
+    signal toMainPage(int userId)
+    signal toAuthorizationPage()
 
     RegistrationControl {
         id: control
@@ -152,7 +152,7 @@ Page {
         Button {
             text: "Зарегистрироваться"
             onClicked: {
-                control.sign_in();
+                control.sendSignUpRequest();
             }
             Layout.alignment: Qt.AlignHCenter
         }
@@ -160,13 +160,13 @@ Page {
         Button {
             text: "Войти"
             onClicked: {
-                page.toAuth();
+                page.toAuthorizationPage();
             }
             Layout.alignment: Qt.AlignHCenter
         }
 
         Component.onCompleted: {
-            control.accessIsAllowed.connect(sign_in)
+            control.accessIsAllowed.connect(toMainPage)
             control.accessIsDenied.connect(onAccessIsDenied)
             control.accessIsDenied.connect(onCheckFields)
         }
