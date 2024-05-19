@@ -42,6 +42,7 @@ protected:
     // bool isPublic(quint16 key);
     bool isMulticast(quint16 key);
     bool isRegistred(quint16 key);
+    bool isSuccessful(const QJsonDocument& object);
 
     friend class Singleton<FrontController>;
 public:

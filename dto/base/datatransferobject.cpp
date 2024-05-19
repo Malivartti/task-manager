@@ -8,7 +8,7 @@ QJsonDocument DataTransferObject::toJson()
 {
     return QJsonDocument(
         toJsonObject()
-        );
+    );
 }
 
 QJsonObject DataTransferObject::toJsonObject() { return {}; }

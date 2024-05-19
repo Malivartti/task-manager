@@ -33,12 +33,12 @@ public:
     Response joinProject(qintptr descriptor, const ParticipationRequest& request);
     Response leaveProject(qintptr descriptor, const ParticipationRequest& request);
 
-    Response getProjectsByUserId(qintptr descriptor, const SimpleRequest& request);
     Response getProject(qintptr descriptor, const SimpleRequest& request);
+    Response getProjectsByUserId(qintptr descriptor, const SimpleRequest& request);
 
     Response postProject(qintptr descriptor, const ProjectPostRequest& request);
-    Response removeProject(qintptr descriptor, const SimpleRequest& request);
     Response updateProject(qintptr descriptor, const ProjectUpdateRequest& request);
+    Response removeProject(qintptr descriptor, const SimpleRequest& request);
 
     Response redirectToProject(qintptr descriptor, const SimpleRequest& request);
 };

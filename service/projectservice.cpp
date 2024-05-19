@@ -32,29 +32,6 @@ Response ProjectService::leaveProject(qintptr descriptor, const ParticipationReq
     };
 }
 
-Response ProjectService::getProjectsByUserId(qintptr descriptor, const SimpleRequest& request)
-{
-    QVector<UserProject> vec = userProjectRepository->getByUserId(request.id);
-
-    qDebug() << "User" << request.id << "has" << vec.size() << "projects";
-
-    QJsonArray array;
-    for (int i = 0; i < vec.size(); i++) {
-        Project project = projectRepository->getById(vec[i].getProjectId());
-        User user = userRepository->getById(project.getOwnerId());
-
-        array.append(ProjectResponse(
-                        project.getId(),
-                        project.getName(),
-                        project.getDescription(),
-                        UserResponse{user.getId(), user.getUsername(), user.getEmail()},
-                        project.getCreatedAt()).toJsonObject()
-                    );
-    }
-
-    return Response{Header{1, "OK"}.toJsonObject(), array};
-}
-
 Response ProjectService::getProject(qintptr descriptor, const SimpleRequest &request)
 {
     Project project = projectRepository->getById(request.id);
@@ -75,6 +52,29 @@ Response ProjectService::getProject(qintptr descriptor, const SimpleRequest &req
             project.getCreatedAt()
         }.toJsonObject()
     };
+}
+
+Response ProjectService::getProjectsByUserId(qintptr descriptor, const SimpleRequest& request)
+{
+    QVector<UserProject> vec = userProjectRepository->getByUserId(request.id);
+
+    qDebug() << "User" << request.id << "has" << vec.size() << "projects";
+
+    QJsonArray array;
+    for (int i = 0; i < vec.size(); i++) {
+        Project project = projectRepository->getById(vec[i].getProjectId());
+        User user = userRepository->getById(project.getOwnerId());
+
+        array.append(ProjectResponse(
+            project.getId(),
+            project.getName(),
+            project.getDescription(),
+            UserResponse{user.getId(), user.getUsername(), user.getEmail()},
+            project.getCreatedAt()).toJsonObject()
+        );
+    }
+
+    return Response{Header{1, "OK"}.toJsonObject(), array};
 }
 
 Response ProjectService::postProject(qintptr descriptor, const ProjectPostRequest& request)
@@ -116,15 +116,15 @@ Response ProjectService::updateProject(qintptr descriptor, const ProjectUpdateRe
         return Response{Header{0, "Project does not exist"}.toJsonObject(), ProjectResponse{}.toJsonObject()};
     }
 
-    if (project.getName() != request.name) {
-        if (projectRepository->getByName(request.name).getId() != 0) {
-            return Response{Header{0, "Project name has already been taken"}.toJsonObject(), ProjectResponse{}.toJsonObject()};
-        }
-    }
-
     if (project.getOwnerId() != request.ownerId) {
         if (userProject.getRole() != "Owner") {
             return Response{Header{0, "Access to perform this action has been denied"}.toJsonObject(), ProjectResponse{}.toJsonObject()};
+        }
+    }
+
+    if (project.getName() != request.name) {
+        if (projectRepository->getByName(request.name).getId() != 0) {
+            return Response{Header{0, "Project name has already been taken"}.toJsonObject(), ProjectResponse{}.toJsonObject()};
         }
     }
 
@@ -162,7 +162,7 @@ Response ProjectService::redirectToProject(qintptr descriptor, const SimpleReque
     return Response{
         Header{1, "OK"}.toJsonObject(),
         QJsonObject{
-            {"projectId", request.id}
+            {"id", request.id}
         }
     };
 }

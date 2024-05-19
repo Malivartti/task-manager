@@ -39,6 +39,11 @@ bool FrontController::isRegistred(quint16 key)
     return commands.contains(key);
 }
 
+bool FrontController::isSuccessful(const QJsonDocument &object)
+{
+    return object["head"]["code"] == 1 ? true : false;
+}
+
 void FrontController::setServer(BaseServer *server)
 {
     if (this->server == nullptr) this->server = server;
@@ -67,10 +72,12 @@ void FrontController::mapRequest(qintptr descriptor, quint16 key, const QJsonDoc
         server->sendToClient(descriptor, key, authService->getForbiddenAccess().toJson()); // Другая ошибка
         return;
     }
-    if (!isMulticast(key)) {
-        server->sendToClient(descriptor, key, commands[key](descriptor, object).toJson());
+
+    QJsonDocument response = commands[key](descriptor, object).toJson();
+    if (!isMulticast(key) || !isSuccessful(response)) {
+        server->sendToClient(descriptor, key, response);
     }
     else {
-        server->sendToClient(authService->getListeningDescriptors(descriptor), key, commands[key](descriptor, object).toJson());
+        server->sendToClient(authService->getListeningDescriptors(descriptor), key, response);
     }
 }

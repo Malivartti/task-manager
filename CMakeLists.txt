@@ -49,6 +49,16 @@ add_executable(Server
   service/base/service.h service/base/service.cpp
   service/projectservice.h service/projectservice.cpp
   base/baseserver.h base/baseserver.cpp
+  service/userservice.h service/userservice.cpp
+  dto/request/userrequest.h dto/request/userrequest.cpp
+  model/task.h model/task.cpp
+  model/usertask.h model/usertask.cpp
+  repository/taskrepository.h repository/taskrepository.cpp
+  repository/usertaskrepository.h repository/usertaskrepository.cpp
+  service/taskservice.h service/taskservice.cpp
+  dto/response/taskresponse.h dto/response/taskresponse.cpp
+  dto/request/taskpostrequest.h dto/request/taskpostrequest.cpp
+  dto/request/taskupdaterequest.h dto/request/taskupdaterequest.cpp
 )
 target_link_libraries(Server Qt${QT_VERSION_MAJOR}::Core Qt6::Sql Qt6::Network)
 

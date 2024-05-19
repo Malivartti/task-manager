@@ -8,7 +8,7 @@ Server::Server() {
         qDebug() << "Server successfully started";
         DBConnection* connection = DBConnection::getInstance();
         connection->setDriver("QPSQL");
-        connection->connect("db", "postgres", "postgres", "246224682");
+        connection->connect("localhost", "postgres", "postgres", "246224682");
 
         controller = FrontController::getInstance();
         controller->setServer(this);
