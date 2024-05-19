@@ -6,12 +6,13 @@ void ProjectRepository::prepareQuery(QSqlQuery& query, const Project& project, R
 {
     QString string;
     if (request == RequestType::Insert || (request == RequestType::InsUpd && project.getId() == 0)) {
-        string = "INSERT INTO public.\"Project\" (name, description, \"ownerId\", \"createdId\") "
-                 "VALUES (:name, :description, :ownerId, :createdId)";
+        string = "INSERT INTO public.\"Project\" (name, description, \"ownerId\", \"createdAt\") "
+                 "VALUES (:name, :description, :ownerId, :createdAt)";
+        qDebug() << string[string.size()-1];
     }
     else if (request == RequestType::Update || request == RequestType::InsUpd) {
         string = "UPDATE public.\"Project\" "
-                 "SET name = :name, description = :description, ownerId = :ownerId, createdId = :createdId "
+                 "SET name = :name, description = :description, ownerId = :ownerId, createdAt = :createdAt "
                  "WHERE \"projectId\" = :id";
     }
     else if (request == RequestType::Delete) {
@@ -25,7 +26,7 @@ void ProjectRepository::prepareQuery(QSqlQuery& query, const Project& project, R
     query.bindValue(":name", project.getName());
     query.bindValue(":description", project.getDescription());
     query.bindValue(":ownerId", project.getOwnerId());
-    query.bindValue(":createdId", project.getCreatedAt());
+    query.bindValue(":createdAt", project.getCreatedAt());
 }
 
 Project ProjectRepository::getById(const unsigned int id) {

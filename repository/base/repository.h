@@ -29,6 +29,7 @@ protected:
     T executeQueryOne(QSqlQuery& query) {
         if (!query.exec() || query.lastError().type() != QSqlError::NoError) {
             qDebug() << "During executing a query error occured: " << query.lastError().text();
+            qDebug() << query.lastQuery();
         }
         else {
             while (query.next()) {
@@ -73,17 +74,17 @@ public:
     }
     virtual bool insert(const T& model) {
         QSqlQuery query;
-        prepareQuery(query, model, RequestType::InsUpd, ReturnType::Returning);
+        prepareQuery(query, model, RequestType::Insert);
         return executeQueryBool(query);
     }
     virtual bool update(const T& model) {
         QSqlQuery query;
-        prepareQuery(query, model, RequestType::InsUpd, ReturnType::Returning);
+        prepareQuery(query, model, RequestType::Update);
         return executeQueryBool(query);
     }
     virtual bool remove(const T& model) {
         QSqlQuery query;
-        prepareQuery(query, model, RequestType::InsUpd, ReturnType::Returning);
+        prepareQuery(query, model, RequestType::Delete);
         return executeQueryBool(query);
     };
 };
