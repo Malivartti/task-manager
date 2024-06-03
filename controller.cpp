@@ -21,17 +21,16 @@ void Controller::connectToServer()
     socket->connectToHost("127.0.0.1", 23232);
 }
 
-void Controller::sendToServer(const quint16 key, const QJsonDocument &json)
+QByteArray Controller::encode(const QByteArray &data)
 {
-    data.clear();
-    QDataStream out(&data, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_6_7);
+    if (!isServerPublicKeySet) { return data; }
+    return rsa->encode(data, serverPublicKey);
+}
 
-    out << quint16(0) << key << json;
-    out.device()->seek(0);
-    out << quint16(data.size()-sizeof(quint16));
-
-    socket->write(data);
+QByteArray Controller::decode(const QByteArray &data)
+{
+    if (!isServerPublicKeySet) { return data; }
+    return rsa->decode(data, rsa->getPrivateKey());
 }
 
 void Controller::slotReadyRead()
@@ -55,14 +54,54 @@ void Controller::slotReadyRead()
                 qDebug() << "Invalid stream";
                 break;
             }
-            quint16 key;
-            QJsonDocument object;
-            in >> key >> object;
-            qDebug() << key << object;
 
-            handler->mapRequest(key, object);
+            quint16 key;
+            QByteArray data;
+            in >> key >> data;
+            if (key == 0) {
+                qDebug() << "Server Public Key:" << data;
+
+                serverPublicKey = data;
+
+                qDebug() << "Client Public Key:" << rsa->getPublicKey();
+
+                sendToServer(0, rsa->encode(rsa->getPublicKey(), serverPublicKey));
+
+                isServerPublicKeySet = true;
+            }
+            else {
+                QJsonDocument object = QJsonDocument::fromJson(decode(data));
+
+                qDebug() << key << object;
+
+                handler->mapRequest(key, object);
+            }
 
             break;
         }
     }
+}
+
+void Controller::sendToServer(const quint16 key, const QByteArray &message)
+{
+    qDebug() << "Sending to server..." << key;
+
+    data.clear();
+    QDataStream out(&data, QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_6_7);
+
+    out << quint16(0) << key << encode(message);
+    out.device()->seek(0);
+    out << quint16(data.size()-sizeof(quint16));
+
+    socket->write(data);
+
+    socket->flush();
+
+    qDebug() << "Successfully sent data to server" << key;
+}
+
+void Controller::sendToServer(const quint16 key, const QJsonDocument &json)
+{
+    sendToServer(key, json.toJson());
 }

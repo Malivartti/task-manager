@@ -1,9 +1,7 @@
 #ifndef LOGINREQUEST_H
 #define LOGINREQUEST_H
 
-#include <QJsonObject>
-
-#include "dto/base/datatransferobject.h"
+#include "base/datatransferobject.h"
 
 class LoginRequest : public DataTransferObject
 {
@@ -16,6 +14,5 @@ public:
 
     QJsonObject toJsonObject() override;
 };
-
 
 #endif // LOGINREQUEST_H
