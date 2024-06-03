@@ -1,19 +1,24 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import "pages/registration"
-import "pages/authorization"
-import "pages/main"
 
-ApplicationWindow {
-    id: window
-    minimumWidth: 640
-    minimumHeight: 480
+import "page" as Pages
+
+Window {
+    width: 1344
+    height: 756
+    minimumWidth: 960
+    minimumHeight: 540
     visible: true
-    title: "Task manager"
+    title: qsTr("Task Manager")
+
+    function toMain(user) {
+        pageView.replace(mainPage)
+        mainPage.enable(user)
+    }
 
     StackView {
-        id: stackView
+        id: pageView
         anchors.fill: parent
         initialItem: authPage
 
@@ -25,34 +30,17 @@ ApplicationWindow {
         replaceExit: Transition {}
     }
 
-    AuthorizationPage {
-        id: authPage
-        visible: false
-        onToReg: {
-            stackView.replace(regPage)
-        }
-        onLog_in: {
-            stackView.replace(mainPage)
-        }
-    }
-
-    RegistrationPage {
-        id: regPage
-        visible: false;
-        onToAuth: {
-            stackView.replace(authPage)
-        }
-        onSign_in: {
-            stackView.replace(mainPage)
-        }
-    }
-
-    MainPage {
+    Pages.MainPage {
         id: mainPage
         visible: false
     }
 
+    Pages.AuthPage {
+        id: authPage
+        visible: false
+    }
+
     Component.onCompleted: {
-        regPage.sign_in.connect(mainPage.sign_in)
+        authPage.toMain.connect(toMain)
     }
 }
