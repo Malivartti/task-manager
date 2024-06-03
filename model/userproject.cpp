@@ -1,6 +1,6 @@
 #include "userproject.h"
 
-UserProject::UserProject() {}
+UserProject::UserProject() : userId(0), projectId(0), role("None") {}
 
 UserProject::UserProject(QSqlQuery& query)
     : userId(query.value(0).toUInt()), projectId(query.value(1).toUInt()),

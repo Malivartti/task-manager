@@ -3,27 +3,48 @@
 
 #include <QSqlQuery>
 
-#include "base/component.h"
-#include "base/dbconnection.h"
+#include "../../base/component.h"
+#include "../../base/dbconnection.h"
 
-template <class T>
-class Repository : public Component<Repository<T>>
+/**
+ * @brief The Base Repository.
+ * @details Repository are responsible for manipulating data in the database. This class provides interface and common methods for descendants and specifies that the descendant is a repository.
+*/
+template <class T, class C>
+class Repository : public Component<C>
 {
 protected:
+    /**
+     * @brief The type of request to the database.
+     * @note InsUpd stands for Insert if model is not in the database (ID is not specified) and Update otherwise.
+    */
+    enum class RequestType { Insert, Update, Delete, InsUpd };
+
+    /**
+     * @brief The return type of request.
+    */
+    enum class ReturnType { Default, Returning };
+
     Repository() {};
 
-    // void prepareQuery(QSqlQuery& query, const QString& model, const QString& field, const QVariant& value) {
-    //     query.prepare(QString("SELECT * FROM public.\"" + model + "\" WHERE \"" + field + "\" = ? "));
-    //     query.addBindValue(value);
-    // }
+    /**
+     * @brief The Abstract Method for creating SQL query for Insert, Update and Delete.
+    */
+    virtual void prepareQuery(QSqlQuery& query, const T& model, RequestType request, ReturnType mode = ReturnType::Default) = 0;
 
-    T getOne(const QString& model, const QString& field, const QVariant& value) {
-        QSqlQuery query;
-        //prepareQuery(query, model, field, value);
-        query.prepare(QString("SELECT * FROM public.\"" + model + "\" WHERE \"" + field + "\" = ? "));
-        query.addBindValue(value);
+    bool executeQueryBool(QSqlQuery& query) {
         if (!query.exec() || query.lastError().type() != QSqlError::NoError) {
             qDebug() << "During executing a query error occured: " << query.lastError().text();
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    T executeQueryOne(QSqlQuery& query) {
+        if (!query.exec() || query.lastError().type() != QSqlError::NoError) {
+            qDebug() << "During executing a query error occured: " << query.lastError().text();
+            qDebug() << query.lastQuery();
         }
         else {
             while (query.next()) {
@@ -32,14 +53,8 @@ protected:
         }
         return T();
     }
-
-    QVector<T> getMany(const QString& model, const QString& field, const QVariant& value) {
+    QVector<T> executeQueryMany(QSqlQuery& query) {
         QVector<T> vec;
-
-        QSqlQuery query;
-        //prepareQuery(query, model, field, value);
-        query.prepare(QString("SELECT * FROM public.\"" + model + "\" WHERE \"" + field + "\" = ? "));
-        query.addBindValue(value);
         if (!query.exec() || query.lastError().type() != QSqlError::NoError) {
             qDebug() << "During executing a query error occured: " << query.lastError().text();
         }
@@ -51,11 +66,42 @@ protected:
         return vec;
     }
 
+    T getOne(const QString& model, const QString& field, const QVariant& value) {
+        QSqlQuery query;
+        query.prepare(QString("SELECT * FROM public.\"" + model + "\" WHERE \"" + field + "\" = ? "));
+        query.addBindValue(value);
+        return executeQueryOne(query);
+    }
+
+    QVector<T> getMany(const QString& model, const QString& field, const QVariant& value) {
+        QSqlQuery query;
+        query.prepare(QString("SELECT * FROM public.\"" + model + "\" WHERE \"" + field + "\" = ? "));
+        query.addBindValue(value);
+        return executeQueryMany(query);
+    }
+
     static inline DBConnection* connection = DBConnection::getInstance();
-    friend class Singleton<Repository<T>>;
 public:
-    virtual bool save(T model) { return false; }
-    virtual bool remove(T model) { return false; }
+    virtual T save(const T& model) {
+        QSqlQuery query;
+        prepareQuery(query, model, RequestType::InsUpd, ReturnType::Returning);
+        return executeQueryOne(query);
+    }
+    virtual bool insert(const T& model) {
+        QSqlQuery query;
+        prepareQuery(query, model, RequestType::Insert);
+        return executeQueryBool(query);
+    }
+    virtual bool update(const T& model) {
+        QSqlQuery query;
+        prepareQuery(query, model, RequestType::Update);
+        return executeQueryBool(query);
+    }
+    virtual bool remove(const T& model) {
+        QSqlQuery query;
+        prepareQuery(query, model, RequestType::Delete);
+        return executeQueryBool(query);
+    };
 };
 
 #endif // REPOSITORY_H

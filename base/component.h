@@ -3,6 +3,10 @@
 
 #include "singleton.h"
 
+/**
+ * @brief The Base Component.
+ * @details This class specifies that the descendant is a component (Controller, Service or Repository) and Singleton by default.
+*/
 template <class T>
 class Component : public Singleton<T>
 {

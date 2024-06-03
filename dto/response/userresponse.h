@@ -3,7 +3,7 @@
 
 #include <QJsonObject>
 
-#include "dto/base/datatransferobject.h"
+#include "../base/datatransferobject.h"
 
 class UserResponse : public DataTransferObject
 {
@@ -15,7 +15,7 @@ public:
     UserResponse();
     UserResponse(unsigned int userId, QString email, QString username);
 
-    QJsonDocument toJson() override;
+    QJsonObject toJsonObject() override;
 };
 
 #endif // USERRESPONSE_H

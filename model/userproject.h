@@ -2,6 +2,7 @@
 #define USERPROJECT_H
 
 #include <QString>
+#include <QVariant>
 
 #include "base/model.h"
 

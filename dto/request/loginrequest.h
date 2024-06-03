@@ -1,7 +1,7 @@
 #ifndef LOGINREQUEST_H
 #define LOGINREQUEST_H
 
-#include "dto/base/datatransferobject.h"
+#include "../base/datatransferobject.h"
 
 class LoginRequest : public DataTransferObject
 {
@@ -10,9 +10,10 @@ public:
     QString password;
 
     LoginRequest();
+    LoginRequest(const QJsonDocument& json);
     LoginRequest(QString login, QString password);
 
-    void fromJson(QJsonDocument& json) override;
+    void fromJson(const QJsonDocument& json) override;
 };
 
 #endif // LOGINREQUEST_H

@@ -3,19 +3,20 @@
 
 #include <QString>
 
-#include "model/project.h"
+#include "../model/project.h"
 #include "base/repository.h"
 
-class ProjectRepository : public Repository<Project>
+class ProjectRepository : public Repository<Project, ProjectRepository>
 {
 protected:
     ProjectRepository();
+
+    friend class Singleton<ProjectRepository>;
+
+    void prepareQuery(QSqlQuery& query, const Project& project, RequestType request, ReturnType mode = ReturnType::Default) override;
 public:
     Project getById(unsigned int id);
-    Project getByName(QString& name);
-
-    bool save(Project project) override;
-    bool remove(Project project) override;
+    Project getByName(const QString& name);
 };
 
 #endif // PROJECTREPOSITORY_H
