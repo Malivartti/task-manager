@@ -49,3 +49,39 @@ Response ProjectController::redirectToProject(qintptr descriptor, const SimpleRe
     if (request.id < 0) {}
     return projectService->redirectToProject(descriptor, request);
 }
+
+// KEY 201
+Response ProjectController::getTask(qintptr descriptor, const SimpleRequest &request)
+{
+    if (request.id < 0) {}
+    return taskService->getTask(descriptor, request);
+
+}
+
+// KEY 202
+Response ProjectController::getTasksByUserId(qintptr descriptor, const SimpleRequest &request)
+{
+    qDebug() << "TASKS REQUESTED";
+    if (request.id < 0) {}
+    return taskService->getTasksByUserId(descriptor, request);
+}
+
+// KEY 203
+Response ProjectController::getTasksByProjectId(qintptr descriptor, const SimpleRequest &request)
+{
+    if (request.id < 0) {}
+    return taskService->getTasksByProjectId(descriptor, request);
+}
+
+// KEY 204
+Response ProjectController::postTask(qintptr descriptor, const TaskPostRequest &request)
+{
+    return taskService->postTask(descriptor, request);
+}
+
+// KEY 205
+Response ProjectController::updateTask(qintptr descriptor, const TaskUpdateRequest &request)
+{
+    if (request.taskId <= 0) {}
+    return taskService->updateTask(descriptor, request);
+}

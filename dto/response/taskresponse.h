@@ -2,6 +2,7 @@
 #define TASKRESPONSE_H
 
 #include <QJsonObject>
+#include <QJsonArray>
 
 #include "../base/datatransferobject.h"
 #include "userresponse.h"
@@ -19,12 +20,14 @@ public:
     int startAt;
     int endAt;
     int resolvedAt;
+    QString status;
+    QJsonArray performers;
 
     TaskResponse();
     TaskResponse(unsigned int taskId, QString name, QString description,
                  ProjectResponse projectId, unsigned int sprintId,
                  UserResponse creatorId, unsigned int startAt,
-                 unsigned int endAt, unsigned int resolvedAt);
+                 unsigned int endAt, unsigned int resolvedAt, QString status, const QJsonArray& performers);
 
     QJsonObject toJsonObject() override;
 };

@@ -9,6 +9,8 @@
 class TaskRepository : public Repository<Task, TaskRepository>
 {
 protected:
+
+
     TaskRepository();
 
     friend class Singleton<TaskRepository>;
@@ -16,6 +18,7 @@ protected:
     void prepareQuery(QSqlQuery& query, const Task& task, RequestType request, ReturnType mode = ReturnType::Default) override;
 public:
     Task getById(unsigned int id);
+    QVector<Task> getByProjectId(unsigned int id);
 };
 
 #endif // TASKREPOSITORY_H

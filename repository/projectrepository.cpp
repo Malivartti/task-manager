@@ -12,7 +12,7 @@ void ProjectRepository::prepareQuery(QSqlQuery& query, const Project& project, R
     }
     else if (request == RequestType::Update || request == RequestType::InsUpd) {
         string = "UPDATE public.\"Project\" "
-                 "SET name = :name, description = :description, ownerId = :ownerId, createdAt = :createdAt "
+                 "SET name = :name, description = :description, \"ownerId\" = :ownerId, \"createdAt\" = :createdAt "
                  "WHERE \"projectId\" = :id";
     }
     else if (request == RequestType::Delete) {

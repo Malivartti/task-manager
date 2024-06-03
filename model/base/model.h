@@ -3,6 +3,9 @@
 
 #include <QSqlQuery>
 
+/**
+ * @brief The Model for representation of database objects (relations).
+*/
 class Model
 {
 public:

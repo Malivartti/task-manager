@@ -1,9 +1,15 @@
 #ifndef SINGLETON_H
 #define SINGLETON_H
 
+/**
+ * @brief The Singleton.
+*/
 template <class T>
 class Singleton {
 private:
+    /**
+     * @brief The Instance of Class T.
+    */
     static inline T* instance = nullptr;
 
 protected:
@@ -13,6 +19,9 @@ protected:
     ~Singleton() {};
 
 public:
+    /**
+     * @brief The Method for obtaining an instance of a Class T.
+    */
     static T* getInstance()
     {
         if (!instance) {

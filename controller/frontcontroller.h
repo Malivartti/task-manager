@@ -20,14 +20,21 @@
  *  [201, 300] TASK
 */
 
+/**
+ * @brief The Controller for processing all requests (Front Controller or Dispatcher Servlet).
+ * @details The Controller processes all Client' requests, delegates them to specific controllers and sends responses back to the Client.
+*/
 class FrontController : public Controller<FrontController>
 {
 protected:
     static inline BaseServer* server = nullptr;
+
     const quint16 START_AUTH = 1;
     const quint16 END_AUTH = 2;
+
     // QVector<quint16> authKeys;
     // QVector<quint16> publicKeys;
+
     QVector<quint16> multicastKeys;
     QMap<quint16, std::function<Response(qintptr descriptor, const QJsonDocument&)>> commands;
 
@@ -47,6 +54,13 @@ protected:
     friend class Singleton<FrontController>;
 public:
     void setServer(BaseServer* server);;
+
+    /**
+     * @brief The Method for mapping and executing commands based on the key as well as sending results back to Client.
+     * @param descriptor Client's socket descriptor.
+     * @param key Key that identifies concrete command.
+     * @param object Client's message.
+    */
     void mapRequest(qintptr descriptor, quint16 key, const QJsonDocument& object);
 };
 

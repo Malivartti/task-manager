@@ -107,7 +107,7 @@ Response ProjectService::updateProject(qintptr descriptor, const ProjectUpdateRe
     UserProject userProject = userProjectRepository->getByUserIdAndProjectId(
         sessionRepository->getByDescriptor(descriptor).getUserId(),
         request.projectId);
-    if (userProject.getUserId() == 0 || userProject.getRole() != "Admin" || userProject.getRole() != "Owner") { // TODO: Заменить на метод проверки прав для update
+    if (userProject.getUserId() == 0 || !(userProject.getRole() == "Admin" || userProject.getRole() == "Owner")) { // TODO: Заменить на метод проверки прав для update
         return Response{Header{0, "Access to perform this action has been denied"}.toJsonObject(), ProjectResponse{}.toJsonObject()};
     }
 

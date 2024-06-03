@@ -9,10 +9,10 @@ TaskPostRequest::TaskPostRequest(const QJsonDocument &json) { fromJson(json); }
 TaskPostRequest::TaskPostRequest(QString name, QString description,
                                  unsigned int projectId, unsigned int sprintId,
                                  unsigned int startAt, unsigned int endAt,
-                                 unsigned int resolvedAt)
+                                 unsigned int resolvedAt, QString status)
     : name(name), description(description), projectId(projectId),
     sprintId(sprintId), startAt(startAt),
-    endAt(endAt), resolvedAt(resolvedAt) {}
+    endAt(endAt), resolvedAt(resolvedAt), status(status) {}
 
 void TaskPostRequest::fromJson(const QJsonDocument &json)
 {
@@ -23,4 +23,5 @@ void TaskPostRequest::fromJson(const QJsonDocument &json)
     startAt = json["startAt"].toInt();
     endAt = json["endAt"].toInt();
     resolvedAt = json["resolvedAt"].toInt();
+    status = json["status"].toString();
 }

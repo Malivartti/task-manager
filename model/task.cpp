@@ -10,29 +10,29 @@ Task::Task(QSqlQuery &query)
     description(query.value(2).toString()), projectId(query.value(3).toUInt()),
     sprintId(query.value(4).toUInt()), creatorId(query.value(5).toUInt()),
     startAt(query.value(6).toUInt()), endAt(query.value(7).toUInt()),
-    resolvedAt(query.value(8).toUInt()) {}
+    resolvedAt(query.value(8).toUInt()), status(query.value(9).toString()) {}
 
 Task::Task(const QString &name,
            const QString &description, unsigned int projectId,
            unsigned int sprintId, unsigned int creatorId,
            unsigned int startAt, unsigned int endAt,
-           unsigned int resolvedAt)
+           unsigned int resolvedAt, const QString &status)
     : taskId(0), name(name),
     description(description), projectId(projectId),
     sprintId(sprintId), creatorId(creatorId),
     startAt(startAt), endAt(endAt),
-    resolvedAt(resolvedAt) {}
+    resolvedAt(resolvedAt), status(status) {}
 
 Task::Task(unsigned int taskId, const QString &name,
            const QString &description, unsigned int projectId,
            unsigned int sprintId, unsigned int creatorId,
            unsigned int startAt, unsigned int endAt,
-           unsigned int resolvedAt)
+           unsigned int resolvedAt, const QString &status)
     : taskId(taskId), name(name),
     description(description), projectId(projectId),
     sprintId(sprintId), creatorId(creatorId),
     startAt(startAt), endAt(endAt),
-    resolvedAt(resolvedAt) {}
+    resolvedAt(resolvedAt), status(status) {}
 
 unsigned int Task::getId() const
 {
@@ -79,6 +79,11 @@ unsigned int Task::getResolvedAt() const
     return resolvedAt;
 }
 
+QString Task::getStatus() const
+{
+    return status;
+}
+
 void Task::setId(unsigned int newId)
 {
     taskId = newId;
@@ -122,4 +127,9 @@ void Task::setEndAt(unsigned int newEndAt)
 void Task::setResolvedAt(unsigned int newtResolvedAt)
 {
     resolvedAt = newtResolvedAt;
+}
+
+void Task::setStatus(const QString &newStatus)
+{
+    status = newStatus;
 }

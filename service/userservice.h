@@ -9,6 +9,10 @@
 #include "../dto/request/userrequest.h"
 #include "../dto/response/userresponse.h"
 
+/**
+ * @brief The Service for users.
+ * @details Provides required functionality for manipulating users.
+*/
 class UserService : public Service<UserService>
 {
 protected:
@@ -19,7 +23,28 @@ protected:
 
     friend class Singleton<UserService>;
 public:
+    /**
+     * @brief The Method for posting (creating) user.
+     * @param descriptor Client's socket descriptor.
+     * @param request Client's request for creating user.
+     * @return Response to the post request.
+    */
+    Response postUser(qintptr descriptor, const UserRequest& request);
+
+    /**
+     * @brief The Method for updating user.
+     * @param descriptor Client's socket descriptor.
+     * @param request Client's request for updating user.
+     * @return Response to the update request.
+    */
     Response updateUser(qintptr descriptor, const UserRequest& request);
+
+    /**
+     * @brief The Method for deleting user.
+     * @param descriptor Client's socket descriptor.
+     * @param request Client's request for deleting user.
+     * @return Response to the delete request.
+    */
     Response removeUser(qintptr descriptor, const SimpleRequest& request);
 };
 

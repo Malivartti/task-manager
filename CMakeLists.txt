@@ -13,6 +13,7 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 find_package(Qt6 REQUIRED COMPONENTS Network)
 find_package(Qt6 REQUIRED COMPONENTS Sql)
+find_package(Qt6 REQUIRED COMPONENTS Test)
 
 add_executable(Server
   main.cpp
@@ -59,8 +60,19 @@ add_executable(Server
   dto/response/taskresponse.h dto/response/taskresponse.cpp
   dto/request/taskpostrequest.h dto/request/taskpostrequest.cpp
   dto/request/taskupdaterequest.h dto/request/taskupdaterequest.cpp
+  security/encoder.h security/encoder.cpp
+  security/rsaencryption.h security/rsaencryption.cpp
+  security/bigint/bigint.h security/bigint/bigint.cpp
+  security/bigint/minigmp_global.h security/bigint/mini-gmp.h
+  security/bigint/mini-gmp.cpp
+  security/aesencryption.h security/aesencryption.cpp
+  tests/authservicetests.h tests/authservicetests.cpp
+  tests/projectservicetests.h tests/projectservicetests.cpp
+  tests/taskservicetests.h tests/taskservicetests.cpp
+  tests/encodertests.h tests/encodertests.cpp
 )
-target_link_libraries(Server Qt${QT_VERSION_MAJOR}::Core Qt6::Sql Qt6::Network)
+
+target_link_libraries(Server PUBLIC Qt${QT_VERSION_MAJOR}::Core Qt6::Sql Qt6::Network Qt6::Test)
 
 include(GNUInstallDirs)
 install(TARGETS Server

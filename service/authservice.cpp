@@ -1,5 +1,7 @@
 #include "authservice.h"
 
+#define GENERATE_HASH(string) QString(QCryptographicHash::hash(string.toLocal8Bit(), QCryptographicHash::Algorithm::Sha256))
+
 static bool isEmail(const QString& login) {
     return login.contains('@');
 }
@@ -66,7 +68,8 @@ Response AuthService::login(qintptr descriptor, const LoginRequest& request)
         }
     }
 
-    if (user.getPassword() != request.password) {
+    // Убрать GENERATE_HASH или перевести пароли в хэш
+    if (!(user.getPassword() == request.password || user.getPassword() == GENERATE_HASH(request.password))) {
         return Response{
             Header{0, "Incorrect password"}.toJsonObject(),
             UserResponse{}.toJsonObject()};
@@ -101,7 +104,7 @@ Response AuthService::reg(qintptr descriptor, const RegisterRequest& request) {
             UserResponse{}.toJsonObject()};
     }
 
-    User user = userRepository->save(User(request.email, request.username, request.password));
+    User user = userRepository->save(User(request.email, request.username, GENERATE_HASH(request.password)));
     if (user.getId() == 0) {
         return Response{
             Header{0, "Internal error"}.toJsonObject(),

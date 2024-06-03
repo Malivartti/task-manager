@@ -1,16 +1,26 @@
 #include <QCoreApplication>
-#include "server.h"
+#include <QTest>
 
-#include <thread>
-#include <chrono>
+#include "server.h"
+// #include "tests/authservicetests.h"
+// #include "tests/projectservicetests.h"
+// #include "tests/taskservicetests.h"
+// #include "tests/encodertests.h"
+
+// #include <thread>
+// #include <chrono>
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    //std::this_thread::sleep_for(std::chrono::milliseconds(20000));
-
     Server s;
+
+    // freopen("testing.log", "w", stdout);
+    // QTest::qExec(new AuthServiceTests, argc, argv);
+    // QTest::qExec(new ProjectServiceTests, argc, argv);
+    // QTest::qExec(new TaskServiceTests, argc, argv);
+    // QTest::qExec(new EncoderTests, argc, argv);
 
     return a.exec();
 }

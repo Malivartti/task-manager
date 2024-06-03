@@ -6,11 +6,11 @@ TaskResponse::TaskResponse(unsigned int taskId, QString name,
                            QString description, ProjectResponse projectId,
                            unsigned int sprintId, UserResponse creatorId,
                            unsigned int startAt, unsigned int endAt,
-                           unsigned int resolvedAt)
+                           unsigned int resolvedAt, QString status, const QJsonArray& performers)
     : taskId(taskId), name(std::move(name)),
     description(std::move(description)), projectId(std::move(projectId)),
     sprintId(sprintId), creatorId(std::move(creatorId)), startAt(startAt),
-    endAt(endAt), resolvedAt(resolvedAt) {}
+    endAt(endAt), resolvedAt(resolvedAt), status(status), performers(performers) {}
 
 QJsonObject TaskResponse::toJsonObject()
 {
@@ -23,6 +23,8 @@ QJsonObject TaskResponse::toJsonObject()
         {"creatorId", creatorId.toJsonObject()},
         {"startAt", startAt},
         {"endAt", endAt},
-        {"resolvedAt", resolvedAt}
+        {"resolvedAt", resolvedAt},
+        {"status", status},
+        {"performers", performers}
     };
 }

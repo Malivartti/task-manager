@@ -17,6 +17,11 @@ FrontController::FrontController() {
     REGISTER(105, projectController, postProject);
     REGISTER(106, projectController, updateProject);
     REGISTER(199, projectController, redirectToProject);
+    REGISTER(201, projectController, getTask);
+    REGISTER(202, projectController, getTasksByUserId);
+    REGISTER(203, projectController, getTasksByProjectId);
+    REGISTER(204, projectController, postTask);
+    REGISTER(205, projectController, updateTask);
 }
 
 // bool FrontController::isAuth(quint16 key)

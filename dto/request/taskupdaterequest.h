@@ -13,10 +13,11 @@ public:
     int startAt;
     int endAt;
     int resolvedAt;
+    QString status;
 
     TaskUpdateRequest();
     TaskUpdateRequest(const QJsonDocument &json);
-    TaskUpdateRequest(unsigned int taskId, QString name, QString description, unsigned int sprintId, unsigned int startAt, unsigned int endAt, unsigned int resolvedAt);
+    TaskUpdateRequest(unsigned int taskId, QString name, QString description, unsigned int sprintId, unsigned int startAt, unsigned int endAt, unsigned int resolvedAt, QString status);
 
     void fromJson(const QJsonDocument& json) override;
 };

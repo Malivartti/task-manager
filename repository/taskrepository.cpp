@@ -6,13 +6,13 @@ void TaskRepository::prepareQuery(QSqlQuery& query, const Task& task, RequestTyp
 {
     QString string;
     if (request == RequestType::Insert || (request == RequestType::InsUpd && task.getId() == 0)) {
-        string = "INSERT INTO public.\"Task\" (name, description, \"projectId\", \"sprintId\", \"creatorId\", \"startAt\", \"endAt\", \"resolvedAt\") "
-                 "VALUES (:name, :description, :projectId, :sprintId, :creatorId, :startAt, :endAt, :resolvedAt)";
+        string = "INSERT INTO public.\"Task\" (name, description, \"projectId\", \"sprintId\", \"creatorId\", \"startAt\", \"endAt\", \"resolvedAt\", \"status\") "
+                 "VALUES (:name, :description, :projectId, :sprintId, :creatorId, :startAt, :endAt, :resolvedAt, :status)";
     }
     else if (request == RequestType::Update || request == RequestType::InsUpd) {
         string = "UPDATE public.\"Task\" "
-                 "SET name = :name, description = :description, projectId = :projectId, sprintId = :sprintId, "
-                 "creatorId = :creatorId, startAt = :startAt, endAt = :endAt, resolvedAt = :resolvedAt "
+                 "SET name = :name, description = :description, \"projectId\" = :projectId, \"sprintId\" = :sprintId, "
+                 "\"creatorId\" = :creatorId, \"startAt\" = :startAt, \"endAt\" = :endAt, \"resolvedAt\" = :resolvedAt, status = :status "
                  "WHERE \"taskId\" = :id";
     }
     else if (request == RequestType::Delete) {
@@ -36,10 +36,23 @@ void TaskRepository::prepareQuery(QSqlQuery& query, const Task& task, RequestTyp
     query.bindValue(":startAt", task.getStartAt());
     query.bindValue(":endAt", task.getEndAt());
     query.bindValue(":resolvedAt", task.getResolvedAt());
+    query.bindValue(":status", task.getStatus());
+
+    // if (task.getStatus() == "") {
+    //     query.bindValue(":status", QVariant(QMetaType::fromType<QString>()));
+    // }
+    // else {
+    //     query.bindValue(":status", task.getStatus());
+    // }
 }
 
 Task TaskRepository::getById(unsigned int id)
 {
     qDebug() << "TaskRepository::getById()";
     return getOne("Task", "taskId", id);
+}
+
+QVector<Task> TaskRepository::getByProjectId(unsigned int id)
+{
+    return getMany("Task", "projectId", id);
 }
