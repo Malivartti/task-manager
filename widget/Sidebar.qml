@@ -10,8 +10,6 @@ Rectangle {
     id: sidebar
     color: "#f7f7f5"
 
-    property int openedProjectById: -1
-
     MainControl {
         id: control
     }
@@ -90,10 +88,6 @@ Rectangle {
             }
             delegate: Widgets.SidebarProjectButton {
                 id: projectButton
-
-                onOpenProject: { openedProjectById = index }
-                onCloseProject: { openedProjectById = -1 }
-                isOpen: openedProjectById == index
 
                 onToProfile: { sidebar.toProfile(model) }
                 onToBacklog: { sidebar.toBacklog(model) }

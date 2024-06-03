@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import BacklogPage
+import "../widget" as Widgets
 
 Rectangle {
     id: backlog
@@ -65,118 +66,170 @@ Rectangle {
         }
     }
 
+    // property bool isOpenPopup: false
+
+
+
+
+    // Rectangle {
+    //     visible: isOpenPopup
+    //     anchors.fill: parent
+    //     z: 10
+
+    //     opacity: 0.1
+
+    //     MouseArea {
+    //         anchors.fill: parent
+    //         onClicked: isOpenPopup = false
+    //     }
+
+    //     Rectangle {
+    //         width: 400
+    //         height: 240
+    //         anchors.verticalCenter: parent.verticalCenter
+    //         anchors.horizontalCenter: parent.horizontalCenter
+    //         color: "red"
+
+    //         MouseArea {
+    //             anchors.fill: parent
+    //         }
+    //     }
+    // }
+
+
 
     Rectangle {
         anchors.fill: parent
         anchors.margins: 50
 
-        ListView {
-            anchors.fill: parent
-            snapMode: ListView.NoSnap
-            interactive: false
 
-            model: ListModel {
-                id: listModel
-                // ListElement {
-                //     name: "Task 1"
-                //     startAt: "7th June, 2024"
-                //     endAt: "9th June, 2024"
-                //     status: "Not started"
-                // }
-                // ListElement {
-                //     name: "Task 1"
-                //     startAt: "7th June, 2024"
-                //     endAt: "9th June, 2024"
-                //     status: "Not started"
-                // }
-                // ListElement {
-                //     name: "Task 1"
-                //     startAt: "7th June, 2024"
-                //     endAt: "9th June, 2024"
-                //     status: "Not started"
-                // }
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 0
+
+            Button {
+                id: button
+                Layout.preferredWidth: 100
+                Layout.preferredHeight: 30
+                Layout.bottomMargin: 20
+
+                background: Rectangle {
+                    anchors.fill: parent
+                    radius: 5
+                    color: button.down ? "#d8d8d6" : (button.hovered ? "#efefed" : "#fff")
+                    border.width: 0
+
+                    Text {
+                        id: text
+                        color: "#37352f"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.pointSize: 10
+                        text: "Add Task"
+                    }
+                }
+
+                onClicked: {
+                    // isOpenPopup = true
+                    // popup.open()
+                }
             }
 
-            delegate: Rectangle {
-                id: taskButtonRectangle
-                width: parent.width
-                height: 30
-                Button {
-                    id: taskButton
+            ListView {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                snapMode: ListView.NoSnap
+                interactive: false
+
+                model: ListModel {
+                    id: listModel
+                }
+
+                delegate: Rectangle {
+                    id: taskButtonRectangle
                     width: parent.width
                     height: 30
+                    Button {
+                        id: taskButton
+                        width: parent.width
+                        height: 30
 
-                    background: Rectangle {
-                        radius: 5
-                        color: taskButton.down ? "#d8d8d6" : (taskButton.hovered ? "#efefed" : backlog.color)
-                        Rectangle {
-                            id: taskName
-                            width: parent.width / 4
-                            height: 30
-                            color: "transparent"
+                        background: Rectangle {
+                            radius: 5
+                            color: taskButton.down ? "#d8d8d6" : (taskButton.hovered ? "#efefed" : backlog.color)
+                            Rectangle {
+                                id: taskName
+                                width: parent.width / 4
+                                height: 30
+                                color: "transparent"
 
-                            Text {
-                                text: name
-                                color: "#37352f"
-                                //Layout.verticalCenter: parent.verticalCenter
+                                Text {
+                                    text: name
+                                    color: "#37352f"
+                                    //Layout.verticalCenter: parent.verticalCenter
+                                }
+
+                                anchors.left: parent.left
+                                anchors.leftMargin: 10
                             }
 
-                            anchors.left: parent.left
-                            anchors.leftMargin: 10
-                        }
+                            Rectangle {
+                                id: taskStartAt
+                                width: parent.width / 4
+                                height: 30
+                                color: "transparent"
 
-                        Rectangle {
-                            id: taskStartAt
-                            width: parent.width / 4
-                            height: 30
-                            color: "transparent"
+                                Text {
+                                    text: startAt
+                                    color: "#37352f"
+                                    //Layout.verticalCenter: parent.verticalCenter
+                                }
 
-                            Text {
-                                text: startAt
-                                color: "#37352f"
-                                //Layout.verticalCenter: parent.verticalCenter
+                                anchors.left: taskName.right
+                                anchors.leftMargin: 10
                             }
 
-                            anchors.left: taskName.right
-                            anchors.leftMargin: 10
-                        }
+                            Rectangle {
+                                id: taskEndAt
+                                width: parent.width / 4
+                                height: 30
+                                color: "transparent"
 
-                        Rectangle {
-                            id: taskEndAt
-                            width: parent.width / 4
-                            height: 30
-                            color: "transparent"
+                                Text {
+                                    text: endAt
+                                    color: "#37352f"
+                                    //Layout.verticalCenter: parent.verticalCenter
+                                }
 
-                            Text {
-                                text: endAt
-                                color: "#37352f"
-                                //Layout.verticalCenter: parent.verticalCenter
+                                anchors.left: taskStartAt.right
+                                anchors.leftMargin: 10
                             }
 
-                            anchors.left: taskStartAt.right
-                            anchors.leftMargin: 10
-                        }
+                            Rectangle {
+                                id: taskStatus
+                                width: parent.width / 4
+                                height: 30
+                                color: "transparent"
 
-                        Rectangle {
-                            id: taskStatus
-                            width: parent.width / 4
-                            height: 30
-                            color: "transparent"
+                                Text {
+                                    text: status
+                                    color: "#37352f"
+                                    //Layout.verticalCenter: parent.verticalCenter
+                                }
 
-                            Text {
-                                text: status
-                                color: "#37352f"
-                                //Layout.verticalCenter: parent.verticalCenter
+                                anchors.left: taskEndAt.right
+                                anchors.leftMargin: 10
                             }
-
-                            anchors.left: taskEndAt.right
-                            anchors.leftMargin: 10
                         }
                     }
                 }
             }
+
+
         }
     }
+
+
 
     Component.onCompleted: {
         control.displayTasks.connect(displayTasks)

@@ -11,9 +11,6 @@ Rectangle {
     signal toBacklog()
     signal toBoard()
 
-    signal openProject()
-    signal closeProject()
-
     function onSomething() {console.log("clicked")}
 
     id: container
@@ -48,11 +45,7 @@ Rectangle {
             }
 
             onClicked: {
-                if (!isOpen) {
-                    container.openProject()
-                } else {
-                    container.closeProject()
-                }
+                isOpen = !isOpen
             }
         }
 

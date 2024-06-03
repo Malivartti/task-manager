@@ -83,7 +83,7 @@ Rectangle {
     Rectangle {
         id: projects
         width: parent.width - 100 * 2
-        height: 155
+        height: 240
         color: "#ffffff"
         radius: 5
         border.color: "#d8d8d6"
@@ -284,6 +284,26 @@ Rectangle {
                 color: "#55534e"
                 text: "My Tasks: 5"
                 font.pointSize: 9
+            }
+        }
+
+        Rectangle {
+            x: 36
+            y: 140
+            width: 134
+            height: 75
+            color: "#ffffff"
+            radius: 5
+            border.color: "#d8d8d6"
+            border.width: 1
+            layer.enabled: true
+            Text {
+                color: "#d8d8d6"
+                text: "+ New"
+                font.weight: 600
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.pointSize: 12
             }
         }
     }

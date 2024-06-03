@@ -151,10 +151,12 @@ Rectangle {
         border.width: 1
 
         Text {
+            id: backlogText
             text: "Backlog"
             font.weight: 500
             font.pointSize: 12
             color: "#55534e"
+            height: 18
 
             anchors.top: parent.top
             anchors.left: parent.left
@@ -163,9 +165,12 @@ Rectangle {
         }
 
         ListView {
+            id: listView
             anchors.fill: parent
             snapMode: ListView.NoSnap
             interactive: false
+            anchors.top: backlog.top
+            anchors.topMargin: 40
 
             model: ListModel {
                 id: listModel
@@ -191,7 +196,10 @@ Rectangle {
 
             delegate: Rectangle {
                 id: taskButtonRectangle
-                width: parent.width
+                width: parent.width - 40
+                anchors.leftMargin: 20
+
+                anchors.left: parent.left
                 height: 30
                 Button {
                     id: taskButton
